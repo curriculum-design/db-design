@@ -12,8 +12,16 @@
     </insert>
 
     <select id="queryUser" resultType="com.example.dbdesign.model.dto.UserDTO">
-        SELECT id, nickname, username, telephone, gender, card_id, create_time, user_role
+        SELECT id,
+               nickname,
+               username,
+               telephone,
+               gender,
+               card_id,
+               create_time,
+               user_role
         FROM user
-        WHERE telephone = #{telephone} AND password = #{password};
+        WHERE telephone = #{telephone}
+          AND password = #{password};
     </select>
 </mapper>
