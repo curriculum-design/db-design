@@ -1,0 +1,14 @@
+server:
+    port: 8081
+mybatis:
+    mapper-locations: classpath:mapper/*xml
+    type-aliases-package: com.example.dbdesign.entity
+    configuration:
+        map-underscore-to-camel-case: true
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/db_design
+        username: root
+        password: 137911
+        driver-class-name: com.mysql.cj.jdbc.Driver
