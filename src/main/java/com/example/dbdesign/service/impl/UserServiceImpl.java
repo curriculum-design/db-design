@@ -60,11 +60,11 @@ public class UserServiceImpl implements UserService {
         if (cardId.length() != 18) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "身份证号码必须为18位");
         }
-        String pattern = "^[0-9]+$";
+        String pattern = "^[0-9a-zA-Z]+$";
         Pattern compile = Pattern.compile(pattern);
         Matcher matcher = compile.matcher(cardId);
         if (!matcher.matches()) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "身份证号码只能包含数字");
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "身份证号码只能包含数字或字母");
         }
 
         //电话号码校验

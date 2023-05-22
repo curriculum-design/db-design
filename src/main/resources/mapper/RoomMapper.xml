@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dbdesign.mapper.RoomMapper">
+
+    <insert id="saveRoom">
+        INSERT INTO room (room_number, room_type, telephone, price, status)
+        VALUES (#{roomNumber}, #{roomType}, #{telephone}, #{price}, #{status});
+    </insert>
+</mapper>

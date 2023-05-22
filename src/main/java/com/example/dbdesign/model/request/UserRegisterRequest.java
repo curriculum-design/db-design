@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * 用户注册请求类
  * @author zzs
  * @date 2023/5/21 16:23
  */

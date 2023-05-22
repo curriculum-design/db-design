@@ -98,3 +98,43 @@ CREATE TABLE IF NOT EXISTS `user_room`
 ) COMMENT '用户房间关联表';
 ```
 
+## 触发器
+
+1. 在用户开房后，需要向用户房间关联表中插入一条数据，如果插入成功，则触发一条更新语句：将房间表中对应的房间状态设置为已入住。
+
+```SQL
+CREATE TRIGGER user_open_room
+    AFTER INSERT
+    ON user_room
+    FOR EACH ROW
+BEGIN
+    UPDATE room
+    SET status = 1
+    WHERE id = NEW.room_id AND is_delete = 0;
+END;
+```
+
+2. 在用户退房的时候，需要将用户房间关联表的相关数据删除，并触发一条更新语句：将房间表中对应的房间状态设置为未入住
+
+```sql
+CREATE TRIGGER user_out_room
+    AFTER UPDATE
+    ON user_room
+    FOR EACH ROW
+BEGIN
+    IF NEW.is_delete != OLD.is_delete THEN
+        UPDATE room
+        SET status = 0
+        WHERE id = NEW.room_id AND is_delete = 0;
+    END IF;
+END;
+```
+
+
+
+
+
+## 索引
+
+所有表都使用 id 作为主键索引
+
