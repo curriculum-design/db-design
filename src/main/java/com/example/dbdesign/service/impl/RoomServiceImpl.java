@@ -5,11 +5,13 @@ import cn.hutool.core.util.StrUtil;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.mapper.RoomMapper;
+import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
 import com.example.dbdesign.service.RoomService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author zzs
@@ -32,5 +34,10 @@ public class RoomServiceImpl implements RoomService {
         }
 
         return roomMapper.saveRoom(roomAddRequest) > 0;
+    }
+
+    @Override
+    public List<Room> getAllRooms() {
+        return roomMapper.queryRooms();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.dbdesign.mapper;
 
 import com.example.dbdesign.model.request.UserOpenRoomRequest;
+import com.example.dbdesign.model.request.UserRoomOutRequest;
 
 /**
  * @author zzs
@@ -14,5 +15,12 @@ public interface UserRoomMapper {
      * @return 受影响行数
      */
     Integer saveUserRoom(UserOpenRoomRequest userOpenRoomRequest);
+
+    /**
+     * 用户退房
+     * @param userRoomOutRequest 用户退房请求
+     * @return 受影响行数
+     */
+    Integer outUserRoom(UserRoomOutRequest userRoomOutRequest);
 
 }

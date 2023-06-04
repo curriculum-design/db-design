@@ -1,5 +1,7 @@
 server:
     port: 8081
+    servlet:
+        context-path: /api
 mybatis:
     mapper-locations: classpath:mapper/*xml
     type-aliases-package: com.example.dbdesign.entity
@@ -12,3 +14,6 @@ spring:
         username: root
         password: 137911
         driver-class-name: com.mysql.cj.jdbc.Driver
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8

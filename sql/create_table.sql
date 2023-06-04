@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS `room`
     `create_time` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_delete`   TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    constraint room_uk unique (room_number)
 ) COMMENT '房间信息表';
 
 CREATE TABLE IF NOT EXISTS `user_room`

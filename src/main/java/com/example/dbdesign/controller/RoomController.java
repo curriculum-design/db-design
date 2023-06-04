@@ -5,14 +5,13 @@ import com.example.dbdesign.common.BaseResponse;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
+import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
 import com.example.dbdesign.service.RoomService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author zzs
@@ -41,6 +40,12 @@ public class RoomController {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "添加房间失败");
         }
         return ResultUtils.success(true, "添加房间成功");
+    }
+
+    @GetMapping("/getRooms")
+    public BaseResponse<List<Room>> getRooms() {
+        List<Room> roomList = roomService.getAllRooms();
+        return ResultUtils.success(roomList, "获取房间列表成功");
     }
 
 }

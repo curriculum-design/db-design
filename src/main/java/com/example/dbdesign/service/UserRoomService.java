@@ -1,6 +1,7 @@
 package com.example.dbdesign.service;
 
 import com.example.dbdesign.model.request.UserOpenRoomRequest;
+import com.example.dbdesign.model.request.UserRoomOutRequest;
 
 /**
  * @author zzs
@@ -16,4 +17,11 @@ public interface UserRoomService {
      */
     Boolean userOpenRoom(UserOpenRoomRequest userOpenRoomRequest);
 
+    /**
+     * 用户退房接口
+     *
+     * @param userRoomOutRequest 用户退房请求
+     * @return 是否退房成功
+     */
+    Boolean userOutRoom(UserRoomOutRequest userRoomOutRequest);
 }

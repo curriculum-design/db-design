@@ -8,4 +8,12 @@
         INSERT INTO user_room (user_id, room_id, finish_time)
         VALUES (#{userId}, #{roomId}, #{finishTime});
     </insert>
+
+    <!--Integer outUserRoom(UserRoomOutRequest userRoomOutRequest);-->
+    <update id="outUserRoom">
+        UPDATE user_room
+        SET is_delete = 1
+        WHERE user_id = #{userId} AND room_id = #{roomId};
+    </update>
+
 </mapper>

@@ -14,7 +14,7 @@ public class ResultUtils {
         return new BaseResponse<>(0, data, "ok");
     }
 
-    public static <T extends Serializable> BaseResponse<T> success(T data, String description){
+    public static <T> BaseResponse<T> success(T data, String description){
         return new BaseResponse<>(0, data, "ok", description);
     }
 

@@ -1,6 +1,9 @@
 package com.example.dbdesign.service;
 
+import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
+
+import java.util.List;
 
 /**
  * @author zzs
@@ -14,5 +17,12 @@ public interface RoomService {
      * @return 是否添加成功
      */
     Boolean addRoom(RoomAddRequest roomAddRequest);
+
+    /**
+     * 获取所有房间
+     *
+     * @return 房间列表
+     */
+    List<Room> getAllRooms();
 
 }

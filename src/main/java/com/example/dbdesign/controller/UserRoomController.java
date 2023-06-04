@@ -7,6 +7,7 @@ import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.request.UserOpenRoomRequest;
+import com.example.dbdesign.model.request.UserRoomOutRequest;
 import com.example.dbdesign.service.UserRoomService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,6 +54,26 @@ public class UserRoomController {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "开房失败");
         }
         return ResultUtils.success(true, "开房成功");
+    }
+
+    @PostMapping("/outRoom")
+    public BaseResponse<Boolean> userOutRoom(@RequestBody UserRoomOutRequest userRoomOutRequest, HttpServletRequest request) {
+        if (BeanUtil.isEmpty(userRoomOutRequest)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        UserDTO loginUser = (UserDTO) request.getSession().getAttribute(SESSION_KEY);
+        if (BeanUtil.isEmpty(loginUser)) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN, "用户未登录");
+        }
+        Long userId = loginUser.getId();
+        if (!userRoomOutRequest.getUserId().equals(userId)) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN, "用户id参数与发起请求的用户id不一致");
+        }
+        Boolean outRoom = userRoomService.userOutRoom(userRoomOutRequest);
+        if (Boolean.FALSE.equals(outRoom)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "退房失败");
+        }
+        return ResultUtils.success(true, "退房成功");
     }
 
 }
