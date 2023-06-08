@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS `room`
     `is_delete`   TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
     PRIMARY KEY (`id`),
     constraint room_uk unique (room_number)
-) COMMENT '房间信息表';
+) default char set = utf8
+    COMMENT '房间信息表';
 
 CREATE TABLE IF NOT EXISTS `user_room`
 (
@@ -43,6 +44,21 @@ CREATE TABLE IF NOT EXISTS `user_room`
     `is_delete`   TINYINT  NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
     PRIMARY KEY (`id`)
 ) COMMENT '用户房间关联表';
+
+CREATE TABLE IF NOT EXISTS `room_item`
+(
+    id    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
+    Room_num         BIGINT          NOT NULL COMMENT '客房号',
+    item_name       varchar(256)    NOT NULL COMMENT '房间物品名称',
+    item_status     TINYINT        NOT NULL DEFAULT 0 COMMENT '房间物品状态（0-售空，1-正常, 2-损坏）',
+    item_price      INT(32)         NOT NULL COMMENT '房间物品单价',
+    item_num        INT(32)         NOT NULL COMMENT '房间物品数量',
+    `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `finish_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '入住截止时间',
+    `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `is_delete`   TINYINT  NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
+    PRIMARY KEY (id)
+) COMMENT '客房物品表';
 
 # 触发器
 # 当向用户-房间关联表插入数据的时候，会自动将房间状态更改为已入住
@@ -70,4 +86,50 @@ BEGIN
           AND is_delete = 0;
     END IF;
 END;
+
+
+#创建用户视图
+create view view_user(客户昵称,客户姓名,性别,客户身份证号)
+as select nickname,username,gender,card_id from user;
+
+#创建客房视图
+create view view_room(房间号,房间类型,客房单价,客房状态,客房电话)
+as select room_number,room_type,price,status,telephone from room;
+
+#创建客房住宿信息视图
+create view view_living(客户号,客房号,入住日期,结算日期,住宿时间,房费)
+as select user_id,room_id,UR.create_time,UR.finish_time,TIMESTAMPDIFF(MINUTE,UR.create_time,UR.finish_time),price
+   from user_room UR
+            JOIN room R ON UR.room_id=R.id
+   GROUP BY UR.room_id;
+
+#创建房间物品视图
+create view view_RoomItem(客房号,客房物品编号,客房物品名称,物品状态,物品单价,物品数量)
+as select Room_num,id,item_name,item_status,item_price,item_num
+   from room_item;
+
+#计算总开销视图
+CREATE VIEW view_bill(入住时长,损坏总额,总开销)
+as select TIMESTAMPDIFF(MINUTE,ur.create_time,ur.finish_time),SUM(item_price),(R.price+SUM(item_price))
+   from room R RIGHT JOIN db_design.user_room ur on R.id = ur.room_id
+               join room_item where item_status = 2;
+
+#创建主键的索引
+CREATE UNIQUE INDEX user_no on user(id);
+CREATE UNIQUE INDEX room_no on room(id);
+CREATE UNIQUE INDEX user_room_no on user_room(id);
+CREATE UNIQUE INDEX room_item_no on room_item(id);
+
+
+
+#创建插入数据
+
+
+
+
+
+
+
+
+
 
