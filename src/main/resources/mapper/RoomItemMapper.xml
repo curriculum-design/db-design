@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dbdesign.mapper.RoomItemMapper">
+
+
+    <insert id="saveItem">
+        INSERT INTO room_item (Room_num, item_name, item_status, item_price, item_num)
+        VALUES (#{roomNumber},#{itemName},#{itemStatus},#{itemPrice},#{itemNum})
+    </insert>
+
+    <update id="DeleteItem">
+        UPDATE room_item SET is_delete = 1 WHERE id = #{id};
+    </update>
+
+    <update id="UpdateItem">
+        UPDATE room_item SET Room_num = #{roomNumber} , item_name = #{itemName} ,
+                             item_status = #{itemStatus}, item_price = #{itemPrice} , item_num = #{itemNum}
+        WHERE id = #{id};
+    </update>
+
+    <select id="queryRoomItem" resultType="com.example.dbdesign.model.entity.RoomItem">
+        SELECT *
+        FROM room_item
+        WHERE is_delete = 0;
+    </select>
+
+
+
+</mapper>

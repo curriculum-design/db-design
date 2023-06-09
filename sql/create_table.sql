@@ -47,18 +47,20 @@ CREATE TABLE IF NOT EXISTS `user_room`
 
 CREATE TABLE IF NOT EXISTS `room_item`
 (
-    id    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
-    Room_num         BIGINT          NOT NULL COMMENT '客房号',
-    item_name       varchar(256)    NOT NULL COMMENT '房间物品名称',
-    item_status     TINYINT        NOT NULL DEFAULT 0 COMMENT '房间物品状态（0-售空，1-正常, 2-损坏）',
-    item_price      INT(32)         NOT NULL COMMENT '房间物品单价',
-    item_num        INT(32)         NOT NULL COMMENT '房间物品数量',
+    `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `Room_num`         BIGINT          NOT NULL COMMENT '客房号',
+    `item_name`       varchar(256)    NOT NULL COMMENT '房间物品名称',
+    `item_status`     TINYINT        NOT NULL DEFAULT 0 COMMENT '房间物品状态（0-售空，1-正常出售）',
+    `item_price`      INT(32)         NOT NULL COMMENT '房间物品单价',
+    `item_num`        INT(32)         NOT NULL COMMENT '房间物品数量',
+    `item_sell`       INT(32)         NOT NULL DEFAULT 0 COMMENT '物品消耗数量',
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `finish_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '入住截止时间',
     `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_delete`   TINYINT  NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
     PRIMARY KEY (id)
-) COMMENT '客房物品表';
+
+) default char set = utf8
+    COMMENT '客房物品表';
 
 # 触发器
 # 当向用户-房间关联表插入数据的时候，会自动将房间状态更改为已入住
@@ -86,6 +88,19 @@ BEGIN
           AND is_delete = 0;
     END IF;
 END;
+
+# 当用户退房的时候将房间内的物品数量进行更新
+CREATE TRIGGER user_out_item_update
+    AFTER UPDATE
+    on room_item
+    FOR EACH ROW
+BEGIN
+    IF NEW.is_delete != OLD.is_delete THEN
+        UPDATE room_item
+            SET item_num = item_num-room_item.item_sell
+        WHERE id = NEW.id AND is_delete = 0;
+    end if;
+end;
 
 
 #创建用户视图
@@ -120,11 +135,27 @@ CREATE UNIQUE INDEX room_no on room(id);
 CREATE UNIQUE INDEX user_room_no on user_room(id);
 CREATE UNIQUE INDEX room_item_no on room_item(id);
 
+CREATE UNIQUE INDEX Telephone on user(telephone);
+CREATE INDEX Password on user(password);
+#创建电话和密码
+CREATE INDEX idx_password_telephone on user(telephone,password);
+CREATE UNIQUE INDEX RoomNumber on room(room_number);
+CREATE UNIQUE INDEX ItemName on room_item(item_name);
 
+
+CREATE TABLE IF NOT EXISTS `bill`
+(
+    `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
+
+    `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `is_delete`     TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
+    PRIMARY KEY (id)
+) COMMENT '订单表';
 
 #创建插入数据
 
-
+show variables like 'character%'
 
 
 
