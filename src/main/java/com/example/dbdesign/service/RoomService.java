@@ -31,4 +31,12 @@ public interface RoomService {
      */
     List<Room> getAllRooms();
 
+    /**
+     * 管理员根据房间id删除房间
+     *
+     * @param roomId 房间id
+     * @return 是否删除成功
+     */
+    Boolean deleteRoom(Long roomId);
+
 }

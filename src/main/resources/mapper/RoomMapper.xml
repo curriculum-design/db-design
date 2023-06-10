@@ -10,6 +10,13 @@
         VALUES (#{roomNumber}, #{roomType}, #{telephone}, #{price}, #{status});
     </insert>
 
+    <!--Integer deleteRoom(@Param("id") Long id);-->
+    <update id="deleteRoom">
+        UPDATE room
+        SET is_delete = 1
+        WHERE id = #{id};
+    </update>
+
     <!--Room queryRoomByRoomNum(@Param("roomNumber") Integer roomNumber);-->
     <select id="queryRoomByRoomNum" resultType="com.example.dbdesign.model.entity.Room">
         SELECT *
