@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `bill`
 
 show variables like 'character%'
 
-create index demo on user(telephone, password)
+
 
 
 

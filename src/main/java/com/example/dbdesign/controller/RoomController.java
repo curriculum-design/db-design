@@ -5,7 +5,6 @@ import com.example.dbdesign.common.BaseResponse;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
-import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
 import com.example.dbdesign.model.request.RoomSearchByRoomNumRequest;
@@ -14,10 +13,7 @@ import com.example.dbdesign.service.RoomService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
-import static com.example.dbdesign.controller.UserController.SESSION_KEY;
 
 /**
  * @author zzs
@@ -68,40 +64,10 @@ public class RoomController {
         return ResultUtils.success(SearchRoom,"查询房间成功");
     }
 
-    /**
-     * 获取所有房间信息
-     * @return 房间列表信息
-     */
     @GetMapping("/getRooms")
     public BaseResponse<List<Room>> getRooms() {
         List<Room> roomList = roomService.getAllRooms();
         return ResultUtils.success(roomList, "获取房间列表成功");
-    }
-
-    /**
-     * 管理员删除房间
-     * @param roomId 房间id
-     * @param request request
-     * @return 是否删除成功
-     */
-    @DeleteMapping("/deleteRoom")
-    public BaseResponse<Boolean> deleteRoom(Long roomId, HttpServletRequest request) {
-        if (roomId == null) {
-            throw new BusinessException(ErrorCode.NULL_ERROR);
-        }
-        UserDTO loginUser = (UserDTO) request.getSession().getAttribute(SESSION_KEY);
-        if (loginUser == null) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN);
-        }
-        Integer userRole = loginUser.getUserRole();
-        if (userRole != 1) {
-            throw new BusinessException(ErrorCode.NO_AUTH);
-        }
-        Boolean deleteRoom = roomService.deleteRoom(roomId);
-        if (Boolean.FALSE.equals(deleteRoom)) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "删除房间失败");
-        }
-        return ResultUtils.success(true, "删除房间成功");
     }
 
 }

@@ -57,12 +57,4 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> getAllRooms() {
         return roomMapper.queryRooms();
     }
-
-    @Override
-    public Boolean deleteRoom(Long roomId) {
-        if (roomId == null) {
-            throw new BusinessException(ErrorCode.NULL_ERROR);
-        }
-        return roomMapper.deleteRoom(roomId) > 0;
-    }
 }

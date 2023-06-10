@@ -29,7 +29,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    public static final String SESSION_KEY = "user_login_state";
+    private static final String SESSION_KEY = "user_login_state";
 
     /**
      * 用户注册接口

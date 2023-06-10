@@ -50,12 +50,4 @@ public interface RoomMapper {
      */
     List<Room> queryRooms();
 
-    /**
-     * 根据id删除房间
-     *
-     * @param id 房间id
-     * @return 受影响行数
-     */
-    Integer deleteRoom(@Param("id") Long id);
-
 }
