@@ -20,8 +20,18 @@ public interface RoomService {
      */
     Boolean addRoom(RoomAddRequest roomAddRequest);
 
+    /**
+     * 进行房间信息的更新
+     * @param roomUpdateRequest
+     * @return
+     */
     Boolean UpdateRoom(RoomUpdateRequest roomUpdateRequest);
 
+    /**
+     * 通过房间号进行查询房间信息
+     * @param roomSearchByRoomNumRequest
+     * @return
+     */
     Room queryRoomByRoomNum(RoomSearchByRoomNumRequest roomSearchByRoomNumRequest);
 
     /**

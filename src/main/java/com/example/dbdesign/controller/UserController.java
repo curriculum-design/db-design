@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author zzs
@@ -62,6 +63,11 @@ public class UserController {
         //保存登录态
         request.getSession().setAttribute(SESSION_KEY, userDTO);
         return ResultUtils.success(userDTO, "登录成功");
+    }
+    @PostMapping("/GetAllUser")
+    public BaseResponse<List<UserDTO>> GetAllUser(){
+        List<UserDTO> getAllUser = userService.getAllUser();
+        return ResultUtils.success(getAllUser,"获取所以用户成功");
     }
 
 }

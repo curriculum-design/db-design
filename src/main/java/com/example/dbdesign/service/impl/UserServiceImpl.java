@@ -13,6 +13,7 @@ import com.example.dbdesign.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -108,5 +109,10 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "账号或密码错误");
         }
         return userDTO;
+    }
+
+
+    public List<UserDTO> getAllUser(){
+        return userMapper.getAllUser();
     }
 }

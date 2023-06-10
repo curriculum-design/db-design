@@ -4,6 +4,8 @@ import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.request.UserLoginRequest;
 import com.example.dbdesign.model.request.UserRegisterRequest;
 
+import java.util.List;
+
 /**
  * @author zzs
  * @date 2023/5/21 14:22
@@ -24,5 +26,15 @@ public interface UserService {
      * @return 用户信息
      */
     UserDTO userLogin(UserLoginRequest userLoginRequest);
+    /**
+     * 查询所有用户
+     * @param
+     * @return List<UserDTO>
+     * @date
+     * @description
+     */
+
+    List<UserDTO> getAllUser();
+
 
 }

@@ -24,4 +24,9 @@
         WHERE telephone = #{telephone}
           AND password = #{password};
     </select>
+
+    <select id="getAllUser" resultType="com.example.dbdesign.model.dto.UserDTO">
+        SELECT id,nickname, username, telephone, gender, card_id, create_time, user_role
+        FROM user;
+    </select>
 </mapper>

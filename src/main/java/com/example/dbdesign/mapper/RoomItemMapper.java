@@ -9,16 +9,33 @@ import com.example.dbdesign.model.request.RoomItemUpdateRequest;
 import java.util.List;
 
 public interface RoomItemMapper {
-    /**
-     * 管理员添加物品
-     */
 
+    /**
+     * 添加物品
+     * @param roomItemAddRequest
+     * @return
+     */
     Integer saveItem(RoomItemAddRequest roomItemAddRequest);
 
+    /**
+     * 删除物品
+     * @param roomItemDeleteRequest
+     * @return
+     */
     Integer DeleteItem(RoomItemDeleteRequest roomItemDeleteRequest);
 
+    /**
+     * 更新物品信息
+     * @param roomItemUpdateRequest
+     * @return
+     */
     Integer UpdateItem(RoomItemUpdateRequest roomItemUpdateRequest);
 
+    /**
+     * 通过物品名称查询物品
+     * @param itemSearchByNameRequest
+     * @return
+     */
     List<RoomItem> SearchItemByName(ItemSearchByNameRequest itemSearchByNameRequest);
 
     /**
