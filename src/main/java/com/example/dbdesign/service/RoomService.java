@@ -2,6 +2,8 @@ package com.example.dbdesign.service;
 
 import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
+import com.example.dbdesign.model.request.RoomSearchByRoomNumRequest;
+import com.example.dbdesign.model.request.RoomUpdateRequest;
 
 import java.util.List;
 
@@ -17,6 +19,10 @@ public interface RoomService {
      * @return 是否添加成功
      */
     Boolean addRoom(RoomAddRequest roomAddRequest);
+
+    Boolean UpdateRoom(RoomUpdateRequest roomUpdateRequest);
+
+    Room queryRoomByRoomNum(RoomSearchByRoomNumRequest roomSearchByRoomNumRequest);
 
     /**
      * 获取所有房间

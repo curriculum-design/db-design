@@ -7,6 +7,8 @@ import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
+import com.example.dbdesign.model.request.RoomSearchByRoomNumRequest;
+import com.example.dbdesign.model.request.RoomUpdateRequest;
 import com.example.dbdesign.service.RoomService;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +42,26 @@ public class RoomController {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "添加房间失败");
         }
         return ResultUtils.success(true, "添加房间成功");
+    }
+    @PostMapping("/UpdateRoom")
+    public BaseResponse<Boolean> UpdateRoom(@RequestBody RoomUpdateRequest roomUpdateRequest){
+        if(BeanUtil.isEmpty(roomUpdateRequest)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Boolean UpdateRoom = roomService.UpdateRoom(roomUpdateRequest);
+        if(Boolean.FALSE.equals(UpdateRoom)){
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR,"更新房间失败");
+        }
+        return ResultUtils.success(true,"更新房间成功");
+    }
+
+    @PostMapping("SearchRoomByName")
+    public BaseResponse<Room> queryRoomByRoomNum(@RequestBody RoomSearchByRoomNumRequest roomSearchByRoomNumRequest){
+        if(BeanUtil.isEmpty(roomSearchByRoomNumRequest)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Room SearchRoom = roomService.queryRoomByRoomNum(roomSearchByRoomNumRequest);
+        return ResultUtils.success(SearchRoom,"查询房间成功");
     }
 
     @GetMapping("/getRooms")

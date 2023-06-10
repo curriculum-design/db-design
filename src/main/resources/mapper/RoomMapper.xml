@@ -19,6 +19,12 @@
           AND is_delete = 0;
     </select>
 
+    <update id="UpdateRoom">
+        UPDATE room SET room_number = #{roomNumber}, room_type = #{roomType}, telephone = #{telephone},
+                        price = #{price}
+        WHERE id = #{id} AND is_delete = 0 AND status = 0;
+    </update>
+
     <!--Room queryRoomById(@Param("id") Long id);-->
     <select id="queryRoomById" resultType="com.example.dbdesign.model.entity.Room">
         SELECT *

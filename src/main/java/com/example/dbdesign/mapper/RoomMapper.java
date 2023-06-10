@@ -2,6 +2,7 @@ package com.example.dbdesign.mapper;
 
 import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
+import com.example.dbdesign.model.request.RoomUpdateRequest;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface RoomMapper {
      * @return 受影响行数
      */
     Integer saveRoom(RoomAddRequest roomAddRequest);
+
+    Integer UpdateRoom(RoomUpdateRequest roomUpdateRequest);
 
     /**
      * 根据房间号来查询房间

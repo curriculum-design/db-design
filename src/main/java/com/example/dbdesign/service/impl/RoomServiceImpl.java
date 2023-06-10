@@ -1,12 +1,13 @@
 package com.example.dbdesign.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.mapper.RoomMapper;
 import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
+import com.example.dbdesign.model.request.RoomSearchByRoomNumRequest;
+import com.example.dbdesign.model.request.RoomUpdateRequest;
 import com.example.dbdesign.service.RoomService;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,22 @@ public class RoomServiceImpl implements RoomService {
 
         return roomMapper.saveRoom(roomAddRequest) > 0;
     }
+
+    public Boolean UpdateRoom(RoomUpdateRequest roomUpdateRequest){
+        if (BeanUtil.hasNullField(roomUpdateRequest)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        return roomMapper.UpdateRoom(roomUpdateRequest)>0;
+    }
+
+    public Room queryRoomByRoomNum(RoomSearchByRoomNumRequest roomSearchByRoomNumRequest){
+        if(BeanUtil.hasNullField(roomSearchByRoomNumRequest)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Integer roomNum = roomSearchByRoomNumRequest.getRoomNumber();
+        return roomMapper.queryRoomByRoomNum(roomNum);
+    }
+
 
     @Override
     public List<Room> getAllRooms() {
