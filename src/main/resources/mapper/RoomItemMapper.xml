@@ -26,6 +26,13 @@
         WHERE is_delete = 0;
     </select>
 
+    <select id="SearchItemByName" resultType="com.example.dbdesign.model.entity.RoomItem">
+        SELECT *
+        FROM room_item WhERE item_name = #{itemName};
+    </select>
+
+
+
 
 
 </mapper>

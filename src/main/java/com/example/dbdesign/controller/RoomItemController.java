@@ -6,10 +6,12 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.entity.RoomItem;
+import com.example.dbdesign.model.request.ItemSearchByNameRequest;
 import com.example.dbdesign.model.request.RoomItemAddRequest;
 import com.example.dbdesign.model.request.RoomItemDeleteRequest;
 import com.example.dbdesign.model.request.RoomItemUpdateRequest;
 import com.example.dbdesign.service.RoomItemService;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -53,6 +55,18 @@ public class RoomItemController {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR,"更新物品失败");
         }
         return ResultUtils.success(true,"更新物品成功");
+    }
+
+    @PostMapping("/SearchItem")
+    public BaseResponse<List<RoomItem>> SearchItemByName(@RequestBody ItemSearchByNameRequest itemSearchByNameRequest){
+        if(BeanUtil.isEmpty(itemSearchByNameRequest)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        List<RoomItem> SearchItem = roomItemService.SearchItemByName(itemSearchByNameRequest);
+        if(CollectionUtils.isEmpty(SearchItem)){
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR,"查询物品失败");
+        }
+        return ResultUtils.success(SearchItem,"查询物品成功");
     }
 
 

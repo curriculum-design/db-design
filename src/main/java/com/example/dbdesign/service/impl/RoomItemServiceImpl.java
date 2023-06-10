@@ -5,6 +5,7 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.mapper.RoomItemMapper;
 import com.example.dbdesign.model.entity.RoomItem;
+import com.example.dbdesign.model.request.ItemSearchByNameRequest;
 import com.example.dbdesign.model.request.RoomItemAddRequest;
 import com.example.dbdesign.model.request.RoomItemDeleteRequest;
 import com.example.dbdesign.model.request.RoomItemUpdateRequest;
@@ -62,6 +63,15 @@ public class RoomItemServiceImpl implements RoomItemService {
         }
 
         return roomItemMapper.UpdateItem(roomItemUpdateRequest)>0;
+    }
+
+    public List<RoomItem> SearchItemByName(ItemSearchByNameRequest itemSearchByNameRequest){
+        String ItemName = itemSearchByNameRequest.getItemName();
+        if(ItemName == null){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"物品名称不能为空");
+        }
+
+        return roomItemMapper.SearchItemByName(itemSearchByNameRequest);
     }
 
     @Override
