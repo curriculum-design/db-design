@@ -3,6 +3,7 @@ package com.example.dbdesign.mapper;
 import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.request.UserLoginRequest;
 import com.example.dbdesign.model.request.UserRegisterRequest;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -35,7 +36,14 @@ public interface UserMapper {
      * @date
      * @description
      */
-
     List<UserDTO> getAllUser();
+
+    /**
+     * 根据用户id删除用户
+     *
+     * @param userId 用户id
+     * @return 是否删除成功
+     */
+    Boolean deleteUserById(@Param("userId") Long userId);
 
 }

@@ -115,4 +115,16 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getAllUser(){
         return userMapper.getAllUser();
     }
+
+    @Override
+    public Boolean deleteUserById(Long userId) {
+        if (userId == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR);
+        }
+        Boolean deleteUserById = userMapper.deleteUserById(userId);
+        if (Boolean.FALSE.equals(deleteUserById)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "修改数据库失败");
+        }
+        return true;
+    }
 }

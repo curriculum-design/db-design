@@ -13,6 +13,11 @@ import java.io.Serializable;
 public class RoomAddRequest implements Serializable {
 
     /**
+     * 主键id
+     */
+    private Long id;
+
+    /**
      * 房间号
      */
     private Integer roomNumber;
@@ -36,5 +41,10 @@ public class RoomAddRequest implements Serializable {
      * 房间状态（0-空闲，1-已入住）
      */
     private Integer status;
+
+    /**
+     * 创建时间
+     */
+    private String createTime;
 
 }

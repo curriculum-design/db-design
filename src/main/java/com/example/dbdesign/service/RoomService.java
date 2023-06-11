@@ -18,7 +18,7 @@ public interface RoomService {
      * @param roomAddRequest 房间添加请求
      * @return 是否添加成功
      */
-    Boolean addRoom(RoomAddRequest roomAddRequest);
+    Room addRoom(RoomAddRequest roomAddRequest);
 
     /**
      * 进行房间信息的更新
@@ -40,5 +40,13 @@ public interface RoomService {
      * @return 房间列表
      */
     List<Room> getAllRooms();
+
+    /**
+     * 管理员根据房间id删除房间
+     *
+     * @param roomId 房间id
+     * @return 是否删除成功
+     */
+    Boolean deleteRoom(Long roomId);
 
 }

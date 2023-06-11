@@ -25,16 +25,19 @@ public class RoomServiceImpl implements RoomService {
     private RoomMapper roomMapper;
 
     @Override
-    public Boolean addRoom(RoomAddRequest roomAddRequest) {
-        if (BeanUtil.hasNullField(roomAddRequest)) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
+    public Room addRoom(RoomAddRequest roomAddRequest) {
+
         String roomType = roomAddRequest.getRoomType();
         if (roomType.length() >= 100) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "房间类型过长");
         }
-
-        return roomMapper.saveRoom(roomAddRequest) > 0;
+        Integer integer = roomMapper.saveRoom(roomAddRequest);
+        if (integer <= 0) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "插入数据库失败");
+        }
+        Room room = BeanUtil.copyProperties(roomAddRequest, Room.class);
+        room.setUpdateTime(room.getCreateTime());
+        return room;
     }
 
     public Boolean UpdateRoom(RoomUpdateRequest roomUpdateRequest){
@@ -56,5 +59,13 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<Room> getAllRooms() {
         return roomMapper.queryRooms();
+    }
+
+    @Override
+    public Boolean deleteRoom(Long roomId) {
+        if (roomId == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR);
+        }
+        return roomMapper.deleteRoom(roomId) > 0;
     }
 }

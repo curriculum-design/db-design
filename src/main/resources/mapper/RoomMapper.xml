@@ -5,11 +5,17 @@
 <mapper namespace="com.example.dbdesign.mapper.RoomMapper">
 
     <!--Integer saveRoom(RoomAddRequest roomAddRequest);-->
-    <insert id="saveRoom">
+    <insert id="saveRoom" useGeneratedKeys="true" keyProperty="id, createTime">
         INSERT INTO room (room_number, room_type, telephone, price, status)
         VALUES (#{roomNumber}, #{roomType}, #{telephone}, #{price}, #{status});
     </insert>
 
+    <!--Integer deleteRoom(@Param("id") Long id);-->
+    <update id="deleteRoom">
+        UPDATE room
+        SET is_delete = 1
+        WHERE id = #{id};
+    </update>
     <!--Room queryRoomByRoomNum(@Param("roomNumber") Integer roomNumber);-->
     <select id="queryRoomByRoomNum" resultType="com.example.dbdesign.model.entity.Room">
         SELECT *
@@ -49,4 +55,5 @@
         FROM room
         WHERE is_delete = 0;
     </select>
+
 </mapper>

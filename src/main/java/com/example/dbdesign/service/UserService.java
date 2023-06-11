@@ -33,8 +33,15 @@ public interface UserService {
      * @date
      * @description
      */
-
     List<UserDTO> getAllUser();
+
+    /**
+     * 根据用户id删除用户
+     *
+     * @param userId 用户id
+     * @return 是否删除成功
+     */
+    Boolean deleteUserById(Long userId);
 
 
 }

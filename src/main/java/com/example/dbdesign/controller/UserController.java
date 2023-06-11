@@ -9,10 +9,7 @@ import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.request.UserLoginRequest;
 import com.example.dbdesign.model.request.UserRegisterRequest;
 import com.example.dbdesign.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +26,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    private static final String SESSION_KEY = "user_login_state";
-
+    public static final String SESSION_KEY = "user_login_state";
     /**
      * 用户注册接口
      * @param user 用户注册请求
@@ -68,6 +64,23 @@ public class UserController {
     public BaseResponse<List<UserDTO>> GetAllUser(){
         List<UserDTO> getAllUser = userService.getAllUser();
         return ResultUtils.success(getAllUser,"获取所以用户成功");
+    }
+
+    @DeleteMapping("/deleteUserById")
+    public BaseResponse<Boolean> deleteUserById(Long userId, HttpServletRequest request) {
+        if (userId == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR);
+        }
+        UserDTO loginUser = (UserDTO) request.getSession().getAttribute(SESSION_KEY);
+        Integer userRole = loginUser.getUserRole();
+        if (!userRole.equals(1)) {
+            throw new BusinessException(ErrorCode.NO_AUTH);
+        }
+        Boolean aBoolean = userService.deleteUserById(userId);
+        if (Boolean.FALSE.equals(aBoolean)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "删除用户失败");
+        }
+        return ResultUtils.success(true, "删除用户成功");
     }
 
 }

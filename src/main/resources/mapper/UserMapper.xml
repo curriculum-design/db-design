@@ -11,6 +11,13 @@
         VALUES (#{nickname}, #{username}, #{password}, #{telephone}, #{gender}, #{cardId})
     </insert>
 
+    <!--Boolean deleteUserById(Long userId);-->
+    <update id="deleteUserById">
+        UPDATE user
+        SET is_delete = 1
+        WHERE id = #{userId};
+    </update>
+
     <select id="queryUser" resultType="com.example.dbdesign.model.dto.UserDTO">
         SELECT id,
                nickname,
