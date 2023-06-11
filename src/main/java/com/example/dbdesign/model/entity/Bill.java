@@ -26,7 +26,12 @@ public class Bill  implements Serializable{
      * 支付状态是否支付（0-已经支付，1-未支付）
      */
     private Integer isPay;
-
+    
+    /**
+     * @date
+     */
+    
+    private Integer price;
 
     /**
      * 创建时间

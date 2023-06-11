@@ -1,16 +1,15 @@
 package com.example.dbdesign.model.request;
 
-import com.example.dbdesign.model.entity.SailedItem;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 新增账单请求类
  * @author 姜楠
  * @date 2023/6/11 11:29
  */
+@Data
 public class SaveBillRequest implements Serializable{
 
     /**
@@ -28,7 +27,7 @@ public class SaveBillRequest implements Serializable{
      */
     private Integer price;
 
-    private List<SailedItem> sailedItemList;
+    //private List<SailedItem> sailedItemList;
 
     /**
      * 状态（0-未支付，1-已支付）

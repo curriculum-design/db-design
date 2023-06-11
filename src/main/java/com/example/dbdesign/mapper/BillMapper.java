@@ -12,15 +12,15 @@ public interface BillMapper {
      * @param SaveBillRequest 加入账单请求
      * @return 受影响行数
      */
-    Boolean saveBill(SaveBillRequest SaveBillRequest);
+    Integer saveBill(SaveBillRequest SaveBillRequest);
 
     /**
      *结账，向bill表中删除一条数据
-     * @param OutBillRequest 加入账单请求
+     * @param outBillRequest 加入账单请求
      * @return 受影响行数
      */
 
-    Boolean outBill(OutBillRequest OutBillRequest);
+    Integer outBill(OutBillRequest outBillRequest);
 
     /**
      * 根据账单id来查询账单信息

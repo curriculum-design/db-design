@@ -1,7 +1,16 @@
 package com.example.dbdesign.model.request;
 
-public class OutBillRequest {
+import lombok.Data;
 
-    private Integer is_pay;
+import java.io.Serializable;
+
+@Data
+public class OutBillRequest implements Serializable {
+
+    private Integer isPay;
     private long id;
+
+    private Integer roomId;
+
+    private Integer userId;
 }

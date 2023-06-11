@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2023/5/22 14:52
  */
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/bill")
 public class RoomController {
 
     @Resource
