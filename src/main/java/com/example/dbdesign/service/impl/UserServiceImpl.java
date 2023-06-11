@@ -34,8 +34,11 @@ public class UserServiceImpl implements UserService {
         if (BeanUtil.isEmpty(user)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        String nickname = "user_" + IdUtil.fastSimpleUUID();
-        user.setNickname(nickname);
+        String userNickname = user.getNickname();
+        if (userNickname == null) {
+            userNickname = "user_" + IdUtil.fastSimpleUUID();
+        }
+        user.setNickname(userNickname);
         //校验姓名
         String username = user.getUsername();
         if (username == null) {
