@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dbdesign.mapper.UserItemMapper">
+
+    <!--  saveUserItem(SaveBillRequest saveBillRequest);-->
+    <insert id="saveUserItem">
+        INSERT INTO bill (User_id, item_price, use_num)
+        VALUES ( #{userId}, #{itemPrice},#{useNum});
+    </insert>
+
+    <!--  saveUserItem(SaveBillRequest saveBillRequest);-->
+    <update id="outUserItem">
+        UPDATE user_item
+        SET is_delete = 1
+        WHERE user_id = #{userId};
+    </update>
+
+</mapper>

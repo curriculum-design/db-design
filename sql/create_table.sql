@@ -164,13 +164,15 @@ CREATE TABLE IF NOT EXISTS `user_item`
     `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
     `User_id`         BIGINT          NOT NULL COMMENT '用户ID',
     `item_name`       varchar(256)    NOT NULL COMMENT '物品名称',
-    
+    `item_price`      INT(32)         NOT NULL COMMENT '物品单价',
+    `use_num`        INT(32)         NOT NULL COMMENT '物品使用数量',
     `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_delete`     TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
     PRIMARY KEY (id)
-)
+)COMMENT '用户消耗物品表';
 
+CREATE UNIQUE INDEX user_item_on on user_item(id);
 
 show variables like 'character%'
 

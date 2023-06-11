@@ -20,7 +20,7 @@ public interface BillService {
      * @param OutBillRequest 账单添加请求
      * @return 是否添加成功
      */
-    //Boolean outBill(OutBillRequest OutBillRequest);
+    //Boolean outBill(OutBillRequest OutBillRequest) ;
 
 
     /**
