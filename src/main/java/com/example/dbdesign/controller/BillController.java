@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/bill")
 public class BillController {
     @Resource
     private BillService billService;

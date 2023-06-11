@@ -24,7 +24,7 @@ import static com.example.dbdesign.controller.UserController.SESSION_KEY;
  * @date 2023/5/22 14:52
  */
 @RestController
-@RequestMapping("/bill")
+@RequestMapping("/room")
 public class RoomController {
 
     @Resource
