@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dbdesign.mapper.BillMapper">
+
+    <!--    Integer saveBill(SaveBillRequest SaveBillRequest);-->
+    <insert id="saveBill">
+        INSERT INTO bill (Room_id, User_id, price,is_pay)
+        VALUES ( #{roomId},#{userId}, #{price},#{isPay});
+    </insert>
+
+    <!--Integer Integer outBill(OutBillRequest OutBillRequest);-->
+    <update id="outBill">
+        UPDATE bill
+        SET is_delete = 1 And is_pay = 0
+        WHERE User_id = #{userId} AND Room_id = #{roomId};
+    </update>
+
+    <select id="queryBillByid" resultType="com.example.dbdesign.model.entity.Bill">
+        SELECT *
+        FROM bill
+        WHERE id = #{id}
+          AND is_pay = 1
+          AND is_delete = 0;
+    </select>
+
+    </mapper>

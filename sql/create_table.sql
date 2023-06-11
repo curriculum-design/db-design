@@ -159,7 +159,17 @@ CREATE TABLE IF NOT EXISTS `bill`
 CREATE UNIQUE INDEX bill_no on bill(id);
 #创建插入数据
 
-CREATE TABLE IF NOT EXISTS `bill`
+CREATE TABLE IF NOT EXISTS `user_item`
+(
+    `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `User_id`         BIGINT          NOT NULL COMMENT '用户ID',
+    `item_name`       varchar(256)    NOT NULL COMMENT '物品名称',
+    
+    `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `is_delete`     TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
+    PRIMARY KEY (id)
+)
 
 
 show variables like 'character%'
