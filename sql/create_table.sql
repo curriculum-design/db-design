@@ -146,14 +146,21 @@ CREATE UNIQUE INDEX ItemName on room_item(item_name);
 CREATE TABLE IF NOT EXISTS `bill`
 (
     `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
-
+    `Room_id`         BIGINT          NOT NULL COMMENT '客房ID',
+    `User_id`         BIGINT          NOT NULL COMMENT '用户ID',
+    `price`           BIGINT           NOT NULL COMMENT '总共价格',
+    `is_pay`        TINYINT      NOT NULL DEFAULT 1 COMMENT '是否支付（0-已经支付，1-未支付）',
     `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_delete`     TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
     PRIMARY KEY (id)
 ) COMMENT '订单表';
 
+CREATE UNIQUE INDEX bill_no on bill(id);
 #创建插入数据
+
+CREATE TABLE IF NOT EXISTS `bill`
+
 
 show variables like 'character%'
 
