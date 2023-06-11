@@ -26,9 +26,15 @@
         WHERE is_delete = 0;
     </select>
 
+    <select id="SearchItemByRoomNum" resultType="com.example.dbdesign.model.entity.RoomItem">
+        SELECT *
+        FROM room_item
+        WHERE is_delete = 0 and Room_num = #{roomNumber};
+    </select>
+
     <select id="SearchItemByName" resultType="com.example.dbdesign.model.entity.RoomItem">
         SELECT *
-        FROM room_item WhERE item_name = #{itemName};
+        FROM room_item WHERE item_name = #{itemName};
     </select>
 
 

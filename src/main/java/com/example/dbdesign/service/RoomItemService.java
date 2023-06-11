@@ -1,10 +1,7 @@
 package com.example.dbdesign.service;
 
 import com.example.dbdesign.model.entity.RoomItem;
-import com.example.dbdesign.model.request.ItemSearchByNameRequest;
-import com.example.dbdesign.model.request.RoomItemAddRequest;
-import com.example.dbdesign.model.request.RoomItemDeleteRequest;
-import com.example.dbdesign.model.request.RoomItemUpdateRequest;
+import com.example.dbdesign.model.request.*;
 
 import java.util.List;
 
@@ -19,6 +16,8 @@ public interface RoomItemService {
     boolean UpdateItem(RoomItemUpdateRequest roomItemUpdateRequest);
 
     List<RoomItem> SearchItemByName(ItemSearchByNameRequest itemSearchByNameRequest);
+
+    List<RoomItem> SearchItemByRoomNumber(ItemSearchByRoomNumRequest itemSearchByRoomNumRequest);
 
     List<RoomItem> getAllItem();
 

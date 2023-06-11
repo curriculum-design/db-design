@@ -1,10 +1,7 @@
 package com.example.dbdesign.mapper;
 
 import com.example.dbdesign.model.entity.RoomItem;
-import com.example.dbdesign.model.request.ItemSearchByNameRequest;
-import com.example.dbdesign.model.request.RoomItemAddRequest;
-import com.example.dbdesign.model.request.RoomItemDeleteRequest;
-import com.example.dbdesign.model.request.RoomItemUpdateRequest;
+import com.example.dbdesign.model.request.*;
 
 import java.util.List;
 
@@ -38,6 +35,7 @@ public interface RoomItemMapper {
      */
     List<RoomItem> SearchItemByName(ItemSearchByNameRequest itemSearchByNameRequest);
 
+    List<RoomItem> SearchItemByRoomNum(ItemSearchByRoomNumRequest itemSearchByRoomNumRequest);
     /**
      * 根据数据库里的房间号查询所有的物品信息
      */

@@ -6,10 +6,7 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.entity.RoomItem;
-import com.example.dbdesign.model.request.ItemSearchByNameRequest;
-import com.example.dbdesign.model.request.RoomItemAddRequest;
-import com.example.dbdesign.model.request.RoomItemDeleteRequest;
-import com.example.dbdesign.model.request.RoomItemUpdateRequest;
+import com.example.dbdesign.model.request.*;
 import com.example.dbdesign.service.RoomItemService;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +71,18 @@ public class RoomItemController {
     public BaseResponse<List<RoomItem>> getAllItem(){
         List<RoomItem> roomItemList = roomItemService.getAllItem();
         return ResultUtils.success(roomItemList,"获取房间物品的信息列表成功");
+    }
+
+    @PostMapping("/SearchByRoomNumber")
+    public BaseResponse<List<RoomItem>> SearchItemByRoomNumber(@RequestBody ItemSearchByRoomNumRequest itemSearchByRoomNumRequest){
+        if(BeanUtil.isEmpty(itemSearchByRoomNumRequest)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        List<RoomItem> SearchByRoomNumber = roomItemService.SearchItemByRoomNumber(itemSearchByRoomNumRequest);
+        if(CollectionUtils.isEmpty(SearchByRoomNumber)){
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR,"查询物品失败");
+        }
+        return ResultUtils.success(SearchByRoomNumber,"根据房间号成功获取到的物品");
     }
 
 

@@ -5,10 +5,7 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.mapper.RoomItemMapper;
 import com.example.dbdesign.model.entity.RoomItem;
-import com.example.dbdesign.model.request.ItemSearchByNameRequest;
-import com.example.dbdesign.model.request.RoomItemAddRequest;
-import com.example.dbdesign.model.request.RoomItemDeleteRequest;
-import com.example.dbdesign.model.request.RoomItemUpdateRequest;
+import com.example.dbdesign.model.request.*;
 import com.example.dbdesign.service.RoomItemService;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +69,14 @@ public class RoomItemServiceImpl implements RoomItemService {
         }
 
         return roomItemMapper.SearchItemByName(itemSearchByNameRequest);
+    }
+
+    public List<RoomItem> SearchItemByRoomNumber(ItemSearchByRoomNumRequest itemSearchByRoomNumRequest){
+        Integer roomNumber = itemSearchByRoomNumRequest.getRoomNumber();
+        if (roomNumber<0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"房间名出错");
+        }
+        return roomItemMapper.SearchItemByRoomNum(itemSearchByRoomNumRequest);
     }
 
     @Override
