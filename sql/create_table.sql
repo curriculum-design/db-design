@@ -181,7 +181,8 @@ update room set status = 1 and is_delete = 1 where room_number = 509;
 
 delete from room_item WHERE item_name = '香蕉';
 
-
+INSERT INTO user VALUES (5, 'Bill', 'jiangnan', '6fb98392774684cf867230c436695d94','12345612367'
+,0,'410304200205032121','2023-06-11 20:27:26','2023-06-11 20:27:26',0,1);
 
 
 

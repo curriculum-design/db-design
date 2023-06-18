@@ -8,6 +8,7 @@ import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.entity.Bill;
 import com.example.dbdesign.model.request.CalculateRequest;
+import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.example.dbdesign.controller.UserController.SESSION_KEY;
@@ -58,6 +60,11 @@ public class BillController {
         }
         Bill queryBill = billService.queryBillByid(queryBillRequest);
         return ResultUtils.success(queryBill,"查找成功");
+    }
+    @GetMapping("/getBills")
+    public BaseResponse<List<Bill>> getBills() {
+        List<Bill> billList = billService.getAllBills();
+        return ResultUtils.success(billList, "获取账单列表成功");
     }
 
     @PostMapping("/consumeItem")

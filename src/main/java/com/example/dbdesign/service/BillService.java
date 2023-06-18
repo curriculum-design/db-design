@@ -3,10 +3,14 @@ package com.example.dbdesign.service;
 
 
 import com.example.dbdesign.model.entity.Bill;
+import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
 import com.example.dbdesign.model.request.OutBillRequest;
+
+import java.util.List;
+
 import io.swagger.models.auth.In;
 
 public interface BillService {
@@ -31,5 +35,7 @@ public interface BillService {
      */
     Bill queryBillByid(QueryBillRequest queryBillRequest);
 
-    Integer CalculatePrice(CalculateRequest calculateRequest, Long userId);
+    List<Bill> getAllBills();
+
+    Integer calculatePrice(CalculateRequest calculateRequest);
 }
