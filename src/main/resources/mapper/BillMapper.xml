@@ -6,15 +6,16 @@
 
     <!--    Integer saveBill(SaveBillRequest SaveBillRequest);-->
     <insert id="saveBill">
-        INSERT INTO bill (Room_id, User_id, price,is_pay)
-        VALUES ( #{roomId},#{userId}, #{price},#{isPay});
+        INSERT INTO bill (Room_id, User_id, price, is_pay)
+        VALUES (#{roomId}, #{userId}, #{price}, #{isPay});
     </insert>
 
     <!--Integer Integer outBill(OutBillRequest OutBillRequest);-->
     <update id="outBill">
         UPDATE bill
         SET is_delete = 1 And is_pay = 0
-        WHERE User_id = #{userId} AND Room_id = #{roomId};
+        WHERE User_id = #{userId}
+          AND Room_id = #{roomId};
     </update>
 
     <select id="queryBillByid" resultType="com.example.dbdesign.model.entity.Bill">
@@ -25,13 +26,30 @@
           AND is_delete = 0;
     </select>
 
-    <select id="CalculatePrice" resultType="Integer">
-        SELECT(SUM(#{count}*#{itemPrice}))
-        FROM room_item
-        <where>
-            <foreach collection="calculateRequest" item="item" index="index" open = "ID in (" separator="," close = ")" nullable="true">
-            #{item.id}
-            </foreach>
-        </where>
+    <select id="calculatePrice" resultType="Integer">
+        SELECT SUM(ri2.count * ri1.item_price) + r.price * DATEDIFF(NOW(), r.create_time)
+        FROM room_item AS ri1
+        LEFT JOIN room r
+            ON r.id = #{roomId}
+        LEFT JOIN (
+        SELECT id, count
+        FROM
+        (
+        <foreach collection="consumeList" index="index" item="item" separator="UNION ALL">
+            SELECT #{item.itemId} AS id, #{item.count} AS count
+        </foreach>
+        ) t
+        ) ri2
+        ON ri1.id = ri2.id
     </select>
-    </mapper>
+
+    <update id="updateItemSell">
+        UPDATE room_item
+        SET item_num  = item_num - #{count},
+            item_sell = item_sell + #{count}
+        WHERE id = #{itemId}
+    </update>
+
+
+
+</mapper>

@@ -31,5 +31,5 @@ public interface BillService {
      */
     Bill queryBillByid(QueryBillRequest queryBillRequest);
 
-    Integer CalculatePrice(CalculateRequest calculateRequest);
+    Integer CalculatePrice(CalculateRequest calculateRequest, Long userId);
 }

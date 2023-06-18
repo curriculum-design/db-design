@@ -1,5 +1,6 @@
 package com.example.dbdesign.model.request;
 
+import com.example.dbdesign.model.entity.ItemConsume;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -7,8 +8,7 @@ import java.util.List;
 
 @Data
 public class CalculateRequest implements Serializable {
-    List<Long> itemId;
 
-
-
+    private Long roomId;
+    private List<ItemConsume> consumeList;
 }

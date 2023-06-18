@@ -6,6 +6,7 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.mapper.BillMapper;
 import com.example.dbdesign.model.entity.Bill;
+import com.example.dbdesign.model.entity.ItemConsume;
 import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
@@ -14,6 +15,7 @@ import com.example.dbdesign.service.BillService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -52,11 +54,36 @@ public class BillServiceImpl implements BillService {
         return bill;
     }
 
-    public Integer CalculatePrice(CalculateRequest calculateRequest){
+    public Integer CalculatePrice(CalculateRequest calculateRequest, Long userId){
         if(BeanUtil.hasNullField(calculateRequest)){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        Integer Final = billMapper.CalculatePrice(calculateRequest);
-        return Final;
+        Integer totalPrice = billMapper.calculatePrice(calculateRequest);
+        List<ItemConsume> consumeList = calculateRequest.getConsumeList();
+        for (ItemConsume itemConsume : consumeList) {
+            Integer itemSell = billMapper.updateItemSell(itemConsume);
+            if (itemSell <= 0) {
+                throw new BusinessException(ErrorCode.PARAMS_ERROR, "更新库存失败");
+            }
+        }
+        if (totalPrice <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        //向订单表插入数据
+        Long roomId = calculateRequest.getRoomId();
+        if (roomId == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR, "房间id不能为空");
+        }
+        SaveBillRequest saveBillRequest = new SaveBillRequest();
+        saveBillRequest.setRoomId(roomId);
+        saveBillRequest.setUserId(userId);
+        saveBillRequest.setPrice(totalPrice);
+        saveBillRequest.setIsPay(0);
+        Integer saveBill = billMapper.saveBill(saveBillRequest);
+        if (saveBill <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        return totalPrice;
     }
 }

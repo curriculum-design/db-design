@@ -5,6 +5,7 @@ import com.example.dbdesign.common.BaseResponse;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
+import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.entity.Bill;
 import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.request.OutBillRequest;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import static com.example.dbdesign.controller.UserController.SESSION_KEY;
 
 @RestController
 @RequestMapping("/bill")
@@ -56,12 +60,16 @@ public class BillController {
         return ResultUtils.success(queryBill,"查找成功");
     }
 
-    @PostMapping("结账价格")
-    public BaseResponse<Integer> CalculatePrice(@RequestBody CalculateRequest calculateRequest){
+    @PostMapping("/consumeItem")
+    public BaseResponse<Integer> CalculatePrice(@RequestBody CalculateRequest calculateRequest, HttpServletRequest request){
         if(BeanUtil.isEmpty(calculateRequest)){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        Integer FinalPrice = billService.CalculatePrice(calculateRequest);
+        UserDTO loginUser = (UserDTO) request.getSession().getAttribute(SESSION_KEY);
+        if (loginUser == null) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN);
+        }
+        Integer FinalPrice = billService.CalculatePrice(calculateRequest, loginUser.getId());
         return ResultUtils.success(FinalPrice,"总金额计算完成");
     }
 }
