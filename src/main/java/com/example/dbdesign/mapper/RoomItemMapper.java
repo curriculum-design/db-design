@@ -45,4 +45,6 @@ public interface RoomItemMapper {
     Integer IsExitItemName(@Param("itemName") String ItemName,@Param("roooNum") Integer roomNum);
 
     Integer ItemExitAdd(@Param("itemNum")Integer ItemNum,@Param("id") Long id);
+
+
 }

@@ -2,6 +2,7 @@ package com.example.dbdesign.mapper;
 
 import com.example.dbdesign.model.entity.Bill;
 import com.example.dbdesign.model.entity.Room;
+import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
 import com.example.dbdesign.model.request.OutBillRequest;
 import org.apache.ibatis.annotations.Param;
@@ -33,4 +34,6 @@ public interface BillMapper {
     Bill queryBillByid(@Param("id") Long id);
 
     List<Bill> queryBills();
+
+    Integer CalculatePrice(CalculateRequest calculateRequest);
 }

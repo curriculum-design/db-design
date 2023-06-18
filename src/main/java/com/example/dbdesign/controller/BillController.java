@@ -6,12 +6,16 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.entity.Bill;
+import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
 import com.example.dbdesign.service.BillService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -57,5 +61,14 @@ public class BillController {
     public BaseResponse<List<Bill>> getBills() {
         List<Bill> billList = billService.getAllBills();
         return ResultUtils.success(billList, "获取账单列表成功");
+    }
+
+    @PostMapping("结账价格")
+    public BaseResponse<Integer> CalculatePrice(@RequestBody CalculateRequest calculateRequest){
+        if(BeanUtil.isEmpty(calculateRequest)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Integer FinalPrice = billService.CalculatePrice(calculateRequest);
+        return ResultUtils.success(FinalPrice,"总金额计算完成");
     }
 }
