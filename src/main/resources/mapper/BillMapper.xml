@@ -25,4 +25,9 @@
           AND is_delete = 0;
     </select>
 
+    <select id="queryBills" resultType="com.example.dbdesign.model.entity.Bill">
+        SELECT *
+        FROM bill
+        WHERE is_delete = 0;
+    </select>
     </mapper>

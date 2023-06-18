@@ -6,16 +6,15 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.entity.Bill;
+import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
 import com.example.dbdesign.service.BillService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/bill")
@@ -53,5 +52,10 @@ public class BillController {
         }
         Bill queryBill = billService.queryBillByid(queryBillRequest);
         return ResultUtils.success(queryBill,"查找成功");
+    }
+    @GetMapping("/getBills")
+    public BaseResponse<List<Bill>> getBills() {
+        List<Bill> billList = billService.getAllBills();
+        return ResultUtils.success(billList, "获取账单列表成功");
     }
 }

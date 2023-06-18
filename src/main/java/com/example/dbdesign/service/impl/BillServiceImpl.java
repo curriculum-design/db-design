@@ -6,6 +6,7 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.mapper.BillMapper;
 import com.example.dbdesign.model.entity.Bill;
+import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
@@ -13,6 +14,7 @@ import com.example.dbdesign.service.BillService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -49,5 +51,10 @@ public class BillServiceImpl implements BillService {
         Long Id = queryBillRequest.getId();
         Bill bill = billMapper.queryBillByid(Id);
         return bill;
+    }
+
+    @Override
+    public List<Bill> getAllBills() {
+        return billMapper.queryBills();
     }
 }
