@@ -2,6 +2,7 @@ package com.example.dbdesign.mapper;
 
 import com.example.dbdesign.model.entity.RoomItem;
 import com.example.dbdesign.model.request.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -40,4 +41,8 @@ public interface RoomItemMapper {
      * 根据数据库里的房间号查询所有的物品信息
      */
     List<RoomItem> queryRoomItem();
+
+    Integer IsExitItemName(@Param("itemName") String ItemName,@Param("roooNum") Integer roomNum);
+
+    Integer ItemExitAdd(@Param("itemNum")Integer ItemNum,@Param("id") Long id);
 }

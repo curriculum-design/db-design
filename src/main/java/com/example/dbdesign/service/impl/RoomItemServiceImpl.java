@@ -22,7 +22,6 @@ public class RoomItemServiceImpl implements RoomItemService {
         if(BeanUtil.hasNullField(roomItemAddRequest)){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-
         Integer itemPrice = roomItemAddRequest.getItemPrice();
         if(itemPrice < 0){
             throw new BusinessException(ErrorCode.PARAMS_ERROR,"物品单价不能小于0");
@@ -32,9 +31,17 @@ public class RoomItemServiceImpl implements RoomItemService {
         if(itemNum < 0){
             throw new BusinessException(ErrorCode.PARAMS_ERROR,"物品数量不能小于0");
         }
-
-        return roomItemMapper.saveItem(roomItemAddRequest)>0;
-
+        String ItemName = roomItemAddRequest.getItemName();
+        Integer roomNum = roomItemAddRequest.getRoomNumber();
+        if(IsExitItemName(ItemName,roomNum)>0){
+//            RoomItemUpdateRequest roomUpdateRequest = BeanUtil.copyProperties(roomItemAddRequest, RoomItemUpdateRequest.class);
+            Integer ItemNum = roomItemAddRequest.getItemNum();
+            Long id = roomItemAddRequest.getId();
+            return ItemExitAdd(ItemNum,id) > 0;
+        }
+        else {
+            return roomItemMapper.saveItem(roomItemAddRequest) > 0;
+        }
     }
 
     public boolean DeleteItem(RoomItemDeleteRequest roomItemDeleteRequest){
@@ -82,5 +89,13 @@ public class RoomItemServiceImpl implements RoomItemService {
     @Override
     public List<RoomItem> getAllItem() {
         return roomItemMapper.queryRoomItem();
+    }
+
+    public Integer IsExitItemName(String ItemName,Integer roomNum){
+        return roomItemMapper.IsExitItemName(ItemName,roomNum);
+    }
+
+    public Integer ItemExitAdd(Integer ItemNum,Long id){
+        return roomItemMapper.ItemExitAdd(ItemNum,id);
     }
 }

@@ -37,8 +37,15 @@
         FROM room_item WHERE item_name = #{itemName};
     </select>
 
+    <select id="IsExitItemName" resultType="int">
+        SELECT count(*)
+        FROM room_item
+        WHERE item_name = #{itemName} and Room_num = #{roooNum};
+    </select>
 
-
-
-
+    <select id="ItemExitAdd" resultType="int">
+        UPDATE room_item
+        SET item_num = item_num + #{itemNum}
+        WHERE id = #{id};
+    </select>
 </mapper>

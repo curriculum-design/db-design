@@ -59,6 +59,7 @@ public class RoomItemController {
         if(BeanUtil.isEmpty(itemSearchByNameRequest)){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+
         List<RoomItem> SearchItem = roomItemService.SearchItemByName(itemSearchByNameRequest);
         if(CollectionUtils.isEmpty(SearchItem)){
             throw new BusinessException(ErrorCode.SYSTEM_ERROR,"查询物品失败");

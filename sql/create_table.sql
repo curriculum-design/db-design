@@ -141,6 +141,7 @@ CREATE INDEX Password on user(password);
 CREATE INDEX idx_password_telephone on user(telephone,password);
 CREATE UNIQUE INDEX RoomNumber on room(room_number);
 CREATE UNIQUE INDEX ItemName on room_item(item_name);
+ALTER TABLE room_item drop INDEX ItemName;
 
 
 CREATE TABLE IF NOT EXISTS `bill`
@@ -174,7 +175,11 @@ CREATE TABLE IF NOT EXISTS `user_item`
 
 CREATE UNIQUE INDEX user_item_on on user_item(id);
 
-show variables like 'character%'
+show variables like 'character%';
+
+update room set status = 1 and is_delete = 1 where room_number = 509;
+
+delete from room_item WHERE item_name = '香蕉';
 
 
 

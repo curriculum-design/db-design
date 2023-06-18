@@ -6,7 +6,7 @@
 
     <!--  saveUserItem(SaveBillRequest saveBillRequest);-->
     <insert id="saveUserItem">
-        INSERT INTO bill (User_id, item_price, use_num)
+        INSERT INTO user_item (User_id, item_price, use_num)
         VALUES ( #{userId}, #{itemPrice},#{useNum});
     </insert>
 

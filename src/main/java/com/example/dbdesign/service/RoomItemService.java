@@ -21,5 +21,7 @@ public interface RoomItemService {
 
     List<RoomItem> getAllItem();
 
+    Integer IsExitItemName(String ItemName,Integer roomNum);
+
 
 }
