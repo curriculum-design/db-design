@@ -41,6 +41,7 @@
         ) t
         ) ri2
         ON ri1.id = ri2.id
+    </select>
     <select id="queryBills" resultType="com.example.dbdesign.model.entity.Bill">
         SELECT *
         FROM bill
