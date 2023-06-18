@@ -37,5 +37,5 @@ public interface BillService {
 
     List<Bill> getAllBills();
 
-    Integer calculatePrice(CalculateRequest calculateRequest);
+    Integer calculatePrice(CalculateRequest calculateRequest, Long userId);
 }

@@ -13,10 +13,7 @@ import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
 import com.example.dbdesign.service.BillService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -76,7 +73,7 @@ public class BillController {
         if (loginUser == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN);
         }
-        Integer FinalPrice = billService.CalculatePrice(calculateRequest, loginUser.getId());
+        Integer FinalPrice = billService.calculatePrice(calculateRequest, loginUser.getId());
         return ResultUtils.success(FinalPrice,"总金额计算完成");
     }
 }
