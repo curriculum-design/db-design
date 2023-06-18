@@ -6,6 +6,7 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.mapper.BillMapper;
 import com.example.dbdesign.model.entity.Bill;
+import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
@@ -49,5 +50,13 @@ public class BillServiceImpl implements BillService {
         Long Id = queryBillRequest.getId();
         Bill bill = billMapper.queryBillByid(Id);
         return bill;
+    }
+
+    public Integer CalculatePrice(CalculateRequest calculateRequest){
+        if(BeanUtil.hasNullField(calculateRequest)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Integer Final = billMapper.CalculatePrice(calculateRequest);
+        return Final;
     }
 }

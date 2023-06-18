@@ -6,6 +6,7 @@ import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.entity.Bill;
+import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
@@ -53,5 +54,14 @@ public class BillController {
         }
         Bill queryBill = billService.queryBillByid(queryBillRequest);
         return ResultUtils.success(queryBill,"查找成功");
+    }
+
+    @PostMapping("结账价格")
+    public BaseResponse<Integer> CalculatePrice(@RequestBody CalculateRequest calculateRequest){
+        if(BeanUtil.isEmpty(calculateRequest)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Integer FinalPrice = billService.CalculatePrice(calculateRequest);
+        return ResultUtils.success(FinalPrice,"总金额计算完成");
     }
 }

@@ -25,4 +25,13 @@
           AND is_delete = 0;
     </select>
 
+    <select id="CalculatePrice" resultType="Integer">
+        SELECT(SUM(#{count}*#{itemPrice}))
+        FROM room_item
+        <where>
+            <foreach collection="calculateRequest" item="item" index="index" open = "ID in (" separator="," close = ")" nullable="true">
+            #{item.id}
+            </foreach>
+        </where>
+    </select>
     </mapper>
