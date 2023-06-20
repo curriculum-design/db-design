@@ -5,9 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.mapper.BillMapper;
-import com.example.dbdesign.model.entity.Bill;
-import com.example.dbdesign.model.entity.ItemConsume;
-import com.example.dbdesign.model.entity.Room;
+import com.example.dbdesign.model.entity.*;
 import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.request.OutBillRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
@@ -66,7 +64,7 @@ public class BillServiceImpl implements BillService {
         if(BeanUtil.hasNullField(calculateRequest)){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        Integer totalPrice = billMapper.calculatePrice(calculateRequest);
+        Integer totalPrice = billMapper.calculatePrice(calculateRequest.getRoomId(), calculateRequest.getConsumeList(), userId);
         List<ItemConsume> consumeList = calculateRequest.getConsumeList();
         for (ItemConsume itemConsume : consumeList) {
             Integer itemSell = billMapper.updateItemSell(itemConsume);
@@ -93,5 +91,29 @@ public class BillServiceImpl implements BillService {
         }
 
         return totalPrice;
+    }
+
+    @Override
+    public List<ItemConsumeInfo> getItemConsumeInfo(CalculateRequest calculateRequest) {
+        if (BeanUtil.hasNullField(calculateRequest)) {
+            throw new BusinessException(ErrorCode.NULL_ERROR);
+        }
+        List<ItemConsumeInfo> itemConsumeList = billMapper.getItemConsumeList(calculateRequest);
+        if (itemConsumeList.isEmpty()) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        return itemConsumeList;
+    }
+
+    @Override
+    public RoomConsumeInfo getRoomConsumeInfo(Long roomId, Long userId) {
+        if (roomId == null || userId == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR);
+        }
+        RoomConsumeInfo roomConsumeInfo = billMapper.getRoomConsumeInfo(roomId, userId);
+        if (roomConsumeInfo == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        return roomConsumeInfo;
     }
 }

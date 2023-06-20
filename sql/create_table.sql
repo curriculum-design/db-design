@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `user_room`
     `is_delete`   TINYINT  NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
     PRIMARY KEY (`id`)
 ) COMMENT '用户房间关联表';
-drop table room_item;
+
 CREATE TABLE IF NOT EXISTS `room_item`
 (
     `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键' ,
