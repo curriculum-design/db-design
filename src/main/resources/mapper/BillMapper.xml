@@ -26,24 +26,24 @@
           AND is_delete = 0;
     </select>
 
-    <select id="calculatePrice" resultType="Integer">
-        SELECT SUM(ri2.count * ri1.item_price) + r.price * DATEDIFF(NOW(), ur.create_time)
-        FROM room_item AS ri1
-        LEFT JOIN user_room ur
-        ON ur.room_id = #{roomId} AND ur.user_id = #{userId}
-        LEFT JOIN room r
-        ON r.id = #{roomId}
-        LEFT JOIN (
-        SELECT id, count
-        FROM
-        (
-        <foreach collection="consumeList" index="index" item="item" separator="UNION ALL">
-            SELECT #{item.itemId} AS id, #{item.count} AS count
-        </foreach>
-        ) t
-        ) ri2
-        ON ri1.id = ri2.id
-    </select>
+
+        <select id="calculatePrice" resultType="Integer">
+            SELECT SUM(tmp.count * ri.item_price) + r.price * DATEDIFF(NOW(), ur.create_time)
+            FROM room_item ri, user_room ur, room r, (
+                SELECT id, count
+                FROM (
+                    <foreach collection="consumeList" index="index" item="item" separator="UNION ALL">
+                        SELECT #{item.itemId} AS id, #{item.count} AS count
+                    </foreach>
+                ) t
+            ) tmp
+            WHERE ri.Room_id = #{roomId}
+              AND ur.room_id = #{roomId}
+              AND ur.user_id = #{userId}
+              AND r.id = #{roomId}
+              AND tmp.id = ri.id
+            GROUP BY ur.create_time
+        </select>
     <select id="queryBills" resultType="com.example.dbdesign.model.entity.Bill">
         SELECT *
         FROM bill
