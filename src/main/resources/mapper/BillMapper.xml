@@ -28,7 +28,7 @@
 
 
         <select id="calculatePrice" resultType="Integer">
-            SELECT SUM(tmp.count * ri.item_price) + r.price * DATEDIFF(NOW(), ur.create_time)
+            SELECT SUM(tmp.count * ri.item_price) + r.price * (1 + DATEDIFF(NOW(), ur.create_time))
             FROM room_item ri, user_room ur, room r, (
                 SELECT id, count
                 FROM (
@@ -42,6 +42,7 @@
               AND ur.user_id = #{userId}
               AND r.id = #{roomId}
               AND tmp.id = ri.id
+              AND ur.is_delete = 0
             GROUP BY ur.create_time
         </select>
     <select id="queryBills" resultType="com.example.dbdesign.model.entity.Bill">
@@ -70,6 +71,7 @@
         ) t
         ) tmp
         ON tmp.id = ri.id
+        WHERE tmp.count IS NOT NULL
     </select>
 
     <select id="getRoomConsumeInfo" resultType="com.example.dbdesign.model.entity.RoomConsumeInfo">
@@ -84,6 +86,7 @@
                            ON ur.room_id = r.id
         WHERE ur.room_id = #{roomId}
           AND ur.user_id = #{userId}
+          AND ur.is_delete = 0
     </select>
 
 
