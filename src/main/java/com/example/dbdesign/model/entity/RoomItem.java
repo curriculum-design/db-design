@@ -11,6 +11,8 @@ public class RoomItem implements Serializable {
      */
     private long id;
 
+    private long Room_id;
+
     /**
      * 客房号
      */

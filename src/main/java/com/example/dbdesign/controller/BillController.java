@@ -7,8 +7,6 @@ import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
 import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.entity.Bill;
-import com.example.dbdesign.model.entity.ItemConsumeInfo;
-import com.example.dbdesign.model.entity.RoomConsumeInfo;
 import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.OutBillRequest;
@@ -77,27 +75,5 @@ public class BillController {
         }
         Integer FinalPrice = billService.calculatePrice(calculateRequest, loginUser.getId());
         return ResultUtils.success(FinalPrice,"总金额计算完成");
-    }
-
-    @PostMapping("/getItemConsumeInfo")
-    public BaseResponse<List<ItemConsumeInfo>> getItemConsumeInfo(@RequestBody CalculateRequest calculateRequest, HttpServletRequest request) {
-        if (BeanUtil.isEmpty(calculateRequest)) {
-            throw new BusinessException(ErrorCode.NULL_ERROR);
-        }
-        List<ItemConsumeInfo> itemConsumeInfo = billService.getItemConsumeInfo(calculateRequest);
-        return ResultUtils.success(itemConsumeInfo, "获取物品消费信息成功");
-    }
-
-    @GetMapping("/getRoomConsumeInfo")
-    public BaseResponse<RoomConsumeInfo> getRoomConsumeInfo(Long roomId, HttpServletRequest request) {
-        if (roomId == null) {
-            throw new BusinessException(ErrorCode.NULL_ERROR);
-        }
-        UserDTO loginUser = (UserDTO) request.getSession().getAttribute(SESSION_KEY);
-        if (loginUser == null) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN);
-        }
-        RoomConsumeInfo roomConsumeInfo = billService.getRoomConsumeInfo(roomId, loginUser.getId());
-        return ResultUtils.success(roomConsumeInfo, "获取房间费用信息成功");
     }
 }

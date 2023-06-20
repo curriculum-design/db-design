@@ -3,9 +3,7 @@ package com.example.dbdesign.service;
 
 
 import com.example.dbdesign.model.entity.Bill;
-import com.example.dbdesign.model.entity.ItemConsumeInfo;
 import com.example.dbdesign.model.entity.Room;
-import com.example.dbdesign.model.entity.RoomConsumeInfo;
 import com.example.dbdesign.model.request.CalculateRequest;
 import com.example.dbdesign.model.request.QueryBillRequest;
 import com.example.dbdesign.model.request.SaveBillRequest;
@@ -40,8 +38,4 @@ public interface BillService {
     List<Bill> getAllBills();
 
     Integer calculatePrice(CalculateRequest calculateRequest, Long userId);
-
-    List<ItemConsumeInfo> getItemConsumeInfo(CalculateRequest calculateRequest);
-
-    RoomConsumeInfo getRoomConsumeInfo(Long roomId, Long userId);
 }

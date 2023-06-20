@@ -27,10 +27,8 @@
     </select>
 
     <select id="calculatePrice" resultType="Integer">
-        SELECT SUM(ri2.count * ri1.item_price) + r.price * DATEDIFF(NOW(), ur.create_time)
+        SELECT SUM(ri2.count * ri1.item_price) + r.price * DATEDIFF(NOW(), r.create_time)
         FROM room_item AS ri1
-        LEFT JOIN user_room ur
-            ON ur.room_id = #{roomId} AND ur.user_id = #{userId}
         LEFT JOIN room r
             ON r.id = #{roomId}
         LEFT JOIN (
@@ -57,34 +55,6 @@
         WHERE id = #{itemId}
     </update>
 
-    <select id="getItemConsumeList" resultType="com.example.dbdesign.model.entity.ItemConsumeInfo">
-        SELECT ri.id as itemId, ri.item_name as itemName, ri.item_price as price, tmp.count AS count, tmp.count * ri.item_price AS totalPrice
-        FROM room_item ri
-        LEFT JOIN (
-        SELECT id, count
-        FROM
-        (
-        <foreach collection="consumeList" index="index" item="item" separator="UNION ALL">
-            SELECT #{item.itemId} AS id, #{item.count} AS count
-        </foreach>
-        ) t
-        ) tmp
-        ON tmp.id = ri.id
-    </select>
-
-    <select id="getRoomConsumeInfo" resultType="com.example.dbdesign.model.entity.RoomConsumeInfo">
-        SELECT r.id                                      AS roomId,
-               r.room_number                             AS roomNumber,
-               r.room_type                               AS roomType,
-               DATEDIFF(NOW(), ur.create_time)           AS days,
-               r.price                                   AS price,
-               r.price * DATEDIFF(NOW(), ur.create_time) AS totalPrice
-        FROM user_room ur
-                 LEFT JOIN room r
-                           ON ur.room_id = r.id
-        WHERE ur.room_id = #{roomId}
-          AND ur.user_id = #{userId}
-    </select>
 
 
 </mapper>

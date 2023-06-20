@@ -44,10 +44,11 @@ CREATE TABLE IF NOT EXISTS `user_room`
     `is_delete`   TINYINT  NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
     PRIMARY KEY (`id`)
 ) COMMENT '用户房间关联表';
-
+drop table room_item;
 CREATE TABLE IF NOT EXISTS `room_item`
 (
-    `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键' ,
+    `Room_id`          BIGINT           NOT NULL COMMENT '房间id号',
     `Room_num`         BIGINT          NOT NULL COMMENT '客房号',
     `item_name`       varchar(256)    NOT NULL COMMENT '房间物品名称',
     `item_status`     TINYINT        NOT NULL DEFAULT 0 COMMENT '房间物品状态（0-售空，1-正常出售）',
@@ -61,6 +62,33 @@ CREATE TABLE IF NOT EXISTS `room_item`
 
 ) default char set = utf8
     COMMENT '客房物品表';
+
+CREATE TABLE IF NOT EXISTS `bill`
+(
+    `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `Room_id`         BIGINT          NOT NULL COMMENT '客房ID',
+    `User_id`         BIGINT          NOT NULL COMMENT '用户ID',
+    `price`           BIGINT           NOT NULL COMMENT '总共价格',
+    `is_pay`        TINYINT      NOT NULL DEFAULT 1 COMMENT '是否支付（0-已经支付，1-未支付）',
+    `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `is_delete`     TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
+    PRIMARY KEY (id)
+) COMMENT '订单表';
+
+
+CREATE TABLE IF NOT EXISTS `user_item`
+(
+    `id`              BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `User_id`         BIGINT          NOT NULL COMMENT '用户ID' ,
+    `item_name`       varchar(256)    NOT NULL COMMENT '物品名称',
+    `item_price`      INT(32)         NOT NULL COMMENT '物品单价',
+    `use_num`         INT(32)         NOT NULL COMMENT '物品使用数量',
+    `create_time`     DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`     DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `is_delete`       TINYINT         NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
+    PRIMARY KEY (id)
+)COMMENT '用户消耗物品表';
 
 # 触发器
 # 当向用户-房间关联表插入数据的时候，会自动将房间状态更改为已入住
@@ -130,62 +158,39 @@ as select TIMESTAMPDIFF(MINUTE,ur.create_time,ur.finish_time),SUM(item_price),(R
                join room_item where item_status = 2;
 
 #创建主键的索引
-CREATE UNIQUE INDEX user_no on user(id);
-CREATE UNIQUE INDEX room_no on room(id);
-CREATE UNIQUE INDEX user_room_no on user_room(id);
-CREATE UNIQUE INDEX room_item_no on room_item(id);
+#CREATE UNIQUE INDEX user_no on user(id);
+#CREATE UNIQUE INDEX room_no on room(id);
+#CREATE UNIQUE INDEX user_room_no on user_room(id);
+#CREATE UNIQUE INDEX room_item_no on room_item(id);
 
 CREATE UNIQUE INDEX Telephone on user(telephone);
 CREATE INDEX Password on user(password);
 #创建电话和密码
 CREATE INDEX idx_password_telephone on user(telephone,password);
 CREATE UNIQUE INDEX RoomNumber on room(room_number);
-CREATE UNIQUE INDEX ItemName on room_item(item_name);
-ALTER TABLE room_item drop INDEX ItemName;
-
-
-CREATE TABLE IF NOT EXISTS `bill`
-(
-    `id`    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `Room_id`         BIGINT          NOT NULL COMMENT '客房ID',
-    `User_id`         BIGINT          NOT NULL COMMENT '用户ID',
-    `price`           BIGINT           NOT NULL COMMENT '总共价格',
-    `is_pay`        TINYINT      NOT NULL DEFAULT 1 COMMENT '是否支付（0-已经支付，1-未支付）',
-    `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_delete`     TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
-    PRIMARY KEY (id)
-) COMMENT '订单表';
+# CREATE UNIQUE INDEX ItemName on room_item(item_name);
+# ALTER TABLE room_item drop INDEX ItemName;
 
 CREATE UNIQUE INDEX bill_no on bill(id);
 #创建插入数据
 
-CREATE TABLE IF NOT EXISTS `user_item`
-(
-    `id`              BIGINT          NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `User_id`         BIGINT          NOT NULL COMMENT '用户ID',
-    `item_name`       varchar(256)    NOT NULL COMMENT '物品名称',
-    `item_price`      INT(32)         NOT NULL COMMENT '物品单价',
-    `use_num`         INT(32)         NOT NULL COMMENT '物品使用数量',
-    `create_time`     DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time`     DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_delete`       TINYINT         NOT NULL DEFAULT 0 COMMENT '逻辑删除（0-正常，1-已删除）',
-    PRIMARY KEY (id)
-)COMMENT '用户消耗物品表';
-
 CREATE UNIQUE INDEX user_item_on on user_item(id);
 
-show variables like 'character%';
+# update room set status = 1 and is_delete = 1 where room_number = 509;
+#
+# delete from room_item WHERE item_name = '香蕉';
+#
+# INSERT INTO user VALUES (5, 'Bill', 'jiangnan', '6fb98392774684cf867230c436695d94','12345612367'
+# ,0,'410304200205032121','2023-06-11 20:27:26','2023-06-11 20:27:26',0,1);
 
-update room set status = 1 and is_delete = 1 where room_number = 509;
+ALTER TABLE user_item ADD CONSTRAINT User_id FOREIGN KEY(User_id) REFERENCES user(id);
 
-delete from room_item WHERE item_name = '香蕉';
+ALTER TABLE bill ADD CONSTRAINT Room_id FOREIGN KEY (Room_id) REFERENCES  room(id);
+ALTER TABLE bill ADD CONSTRAINT fk_user_id FOREIGN KEY (User_id) REFERENCES  user(id);
 
-INSERT INTO user VALUES (5, 'Bill', 'jiangnan', '6fb98392774684cf867230c436695d94','12345612367'
-,0,'410304200205032121','2023-06-11 20:27:26','2023-06-11 20:27:26',0,1);
+ALTER TABLE user_room ADD CONSTRAINT fk2_user_id FOREIGN KEY (user_id) REFERENCES  user(id);
+ALTER TABLE user_room ADD CONSTRAINT fk2_room_id FOREIGN KEY (room_id) REFERENCES  room(id);
 
-
-
-
+ALTER TABLE room_item ADD CONSTRAINT fk3_room_id FOREIGN KEY (Room_id) REFERENCES  room(id);
 
 

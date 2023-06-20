@@ -6,8 +6,8 @@
 
 
     <insert id="saveItem">
-        INSERT INTO room_item (Room_num, item_name, item_status, item_price, item_num)
-        VALUES (#{roomNumber},#{itemName},#{itemStatus},#{itemPrice},#{itemNum})
+        INSERT INTO room_item (Room_id,Room_num, item_name, item_status, item_price, item_num)
+        VALUES ((SELECT room.id FROM room WHERE room_number = #{roomNumber}), #{roomNumber},#{itemName},#{itemStatus},#{itemPrice},#{itemNum})
     </insert>
 
     <update id="DeleteItem">
