@@ -9,7 +9,7 @@ public interface RoomItemService {
     /**
      *添加房间物品
      */
-    boolean addRoomItem(RoomItemAddRequest roomItemAddRequest);
+    RoomItem addRoomItem(RoomItemAddRequest roomItemAddRequest);
 
     boolean DeleteItem(RoomItemDeleteRequest roomItemDeleteRequest);
 

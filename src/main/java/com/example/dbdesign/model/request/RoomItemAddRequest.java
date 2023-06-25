@@ -37,4 +37,9 @@ public class RoomItemAddRequest implements Serializable {
      */
 
     private Integer itemNum;
+
+    /**
+     * 创建时间
+     */
+    private String createTime;
 }

@@ -21,15 +21,13 @@ public class RoomItemController {
     public RoomItemService roomItemService;
 
     @PostMapping("/addItem")
-    public BaseResponse<Boolean> addRoomItem(@RequestBody RoomItemAddRequest roomItemAddRequest){
+    public BaseResponse<RoomItem> addRoomItem(@RequestBody RoomItemAddRequest roomItemAddRequest){
         if (BeanUtil.isEmpty(roomItemAddRequest)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        Boolean addItem = roomItemService.addRoomItem(roomItemAddRequest);
-        if(Boolean.FALSE.equals(addItem)){
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR,"添加物品失败");
-        }
-        return ResultUtils.success(true,"添加物品成功");
+        RoomItem item = roomItemService.addRoomItem(roomItemAddRequest);
+
+        return ResultUtils.success(item,"添加物品成功");
     }
     @PostMapping("/deleteItem")
     public BaseResponse<Boolean> deleteRoomItem(@RequestBody RoomItemDeleteRequest roomItemDeleteRequest){

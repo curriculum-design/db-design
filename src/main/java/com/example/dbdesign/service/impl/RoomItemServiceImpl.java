@@ -7,21 +7,20 @@ import com.example.dbdesign.mapper.RoomItemMapper;
 import com.example.dbdesign.model.entity.RoomItem;
 import com.example.dbdesign.model.request.*;
 import com.example.dbdesign.service.RoomItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Slf4j
 @Service
 public class RoomItemServiceImpl implements RoomItemService {
     @Resource
     private RoomItemMapper roomItemMapper;
 
     @Override
-    public boolean addRoomItem(RoomItemAddRequest roomItemAddRequest) {
-        if(BeanUtil.hasNullField(roomItemAddRequest)){
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
+    public RoomItem addRoomItem(RoomItemAddRequest roomItemAddRequest) {
         Integer itemPrice = roomItemAddRequest.getItemPrice();
         if(itemPrice < 0){
             throw new BusinessException(ErrorCode.PARAMS_ERROR,"物品单价不能小于0");
@@ -34,14 +33,24 @@ public class RoomItemServiceImpl implements RoomItemService {
         String ItemName = roomItemAddRequest.getItemName();
         Integer roomNum = roomItemAddRequest.getRoomNumber();
         if(IsExitItemName(ItemName,roomNum)>0){
-//            RoomItemUpdateRequest roomUpdateRequest = BeanUtil.copyProperties(roomItemAddRequest, RoomItemUpdateRequest.class);
             Integer ItemNum = roomItemAddRequest.getItemNum();
             Long id = roomItemAddRequest.getId();
-            return ItemExitAdd(ItemNum,id) > 0;
+            Integer integer = ItemExitAdd(ItemNum, id);
+            if (integer <= 0) {
+                throw new BusinessException(ErrorCode.PARAMS_ERROR);
+            }
         }
         else {
-            return roomItemMapper.saveItem(roomItemAddRequest) > 0;
+            Integer integer = roomItemMapper.saveItem(roomItemAddRequest);
+            if (integer <= 0) {
+                throw new BusinessException(ErrorCode.PARAMS_ERROR);
+            }
         }
+        RoomItem item = BeanUtil.copyProperties(roomItemAddRequest, RoomItem.class);
+        item.setUpdateTime(item.getCreateTime());
+        log.info(String.valueOf(item));
+
+        return item;
     }
 
     public boolean DeleteItem(RoomItemDeleteRequest roomItemDeleteRequest){

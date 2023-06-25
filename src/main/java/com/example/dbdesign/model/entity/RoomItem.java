@@ -11,32 +11,32 @@ public class RoomItem implements Serializable {
      */
     private long id;
 
-    private long Room_id;
+    private long roomId;
 
     /**
      * 客房号
      */
-    private Integer RoomNum;
+    private Integer roomNum;
 
     /**
      * 客房物品名称
      */
-    private String ItemName;
+    private String itemName;
 
     /**
      * 物品状态（0-售空，1-正常出售）
      */
-    private Integer ItemStatus;
+    private Integer itemStatus;
 
     /**
      * 物品单价
      */
-    private Integer ItemPrice;
+    private Integer itemPrice;
 
     /**
      * 物品数量
      */
-    private Integer ItemNum;
+    private Integer itemNum;
 
     /**
      * 创建时间
