@@ -1,6 +1,7 @@
 package com.example.dbdesign.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.dbdesign.annotation.RoleCheck;
 import com.example.dbdesign.common.BaseResponse;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
@@ -52,6 +53,8 @@ public class BillController {
         }
         return ResultUtils.success(true,"结账成功");
     }
+
+    @RoleCheck
     @PostMapping("queryBill")
     public BaseResponse<Bill> queryBillByid(@RequestBody QueryBillRequest queryBillRequest){
         if(BeanUtil.isEmpty(queryBillRequest)){
@@ -60,6 +63,8 @@ public class BillController {
         Bill queryBill = billService.queryBillByid(queryBillRequest);
         return ResultUtils.success(queryBill,"查找成功");
     }
+
+    @RoleCheck
     @GetMapping("/getBills")
     public BaseResponse<List<Bill>> getBills() {
         List<Bill> billList = billService.getAllBills();

@@ -1,6 +1,7 @@
 package com.example.dbdesign.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.dbdesign.annotation.RoleCheck;
 import com.example.dbdesign.common.BaseResponse;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
@@ -20,6 +21,7 @@ public class RoomItemController {
     @Resource
     public RoomItemService roomItemService;
 
+    @RoleCheck
     @PostMapping("/addItem")
     public BaseResponse<RoomItem> addRoomItem(@RequestBody RoomItemAddRequest roomItemAddRequest){
         if (BeanUtil.isEmpty(roomItemAddRequest)) {
@@ -29,6 +31,8 @@ public class RoomItemController {
 
         return ResultUtils.success(item,"添加物品成功");
     }
+
+    @RoleCheck
     @PostMapping("/deleteItem")
     public BaseResponse<Boolean> deleteRoomItem(@RequestBody RoomItemDeleteRequest roomItemDeleteRequest){
         if(BeanUtil.isEmpty(roomItemDeleteRequest)){
@@ -40,6 +44,8 @@ public class RoomItemController {
         }
         return ResultUtils.success(true,"删除物品成功");
     }
+
+    @RoleCheck
     @PostMapping("/updateItem")
     public BaseResponse<Boolean> UpdateRoomItem(@RequestBody RoomItemUpdateRequest roomItemUpdateRequest){
         if(BeanUtil.isEmpty(roomItemUpdateRequest)){

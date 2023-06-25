@@ -1,6 +1,7 @@
 package com.example.dbdesign.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.dbdesign.annotation.RoleCheck;
 import com.example.dbdesign.common.BaseResponse;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
@@ -60,21 +61,19 @@ public class UserController {
         request.getSession().setAttribute(SESSION_KEY, userDTO);
         return ResultUtils.success(userDTO, "登录成功");
     }
+
+    @RoleCheck
     @PostMapping("/GetAllUser")
     public BaseResponse<List<UserDTO>> GetAllUser(){
         List<UserDTO> getAllUser = userService.getAllUser();
         return ResultUtils.success(getAllUser,"获取所以用户成功");
     }
 
+    @RoleCheck
     @DeleteMapping("/deleteUserById")
     public BaseResponse<Boolean> deleteUserById(Long userId, HttpServletRequest request) {
         if (userId == null) {
             throw new BusinessException(ErrorCode.NULL_ERROR);
-        }
-        UserDTO loginUser = (UserDTO) request.getSession().getAttribute(SESSION_KEY);
-        Integer userRole = loginUser.getUserRole();
-        if (!userRole.equals(1)) {
-            throw new BusinessException(ErrorCode.NO_AUTH);
         }
         Boolean aBoolean = userService.deleteUserById(userId);
         if (Boolean.FALSE.equals(aBoolean)) {
