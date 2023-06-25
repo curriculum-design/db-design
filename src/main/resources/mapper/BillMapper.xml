@@ -27,24 +27,25 @@
     </select>
 
 
-        <select id="calculatePrice" resultType="Integer">
-            SELECT SUM(tmp.count * ri.item_price) + r.price * (1 + DATEDIFF(NOW(), ur.create_time))
-            FROM room_item ri, user_room ur, room r, (
-                SELECT id, count
-                FROM (
-                    <foreach collection="consumeList" index="index" item="item" separator="UNION ALL">
-                        SELECT #{item.itemId} AS id, #{item.count} AS count
-                    </foreach>
-                ) t
-            ) tmp
-            WHERE ri.Room_id = #{roomId}
-              AND ur.room_id = #{roomId}
-              AND ur.user_id = #{userId}
-              AND r.id = #{roomId}
-              AND tmp.id = ri.id
-              AND ur.is_delete = 0
-            GROUP BY ur.create_time
-        </select>
+    <select id="calculatePrice" resultType="Integer">
+        SELECT SUM(tmp.count * ri.item_price) + r.price * (1 + DATEDIFF(NOW(), ur.create_time))
+        FROM room_item ri, user_room ur, room r, (
+            SELECT id, count
+            FROM (
+                <foreach collection="consumeList" index="index" item="item" separator="UNION ALL">
+                    SELECT #{item.itemId} AS id, #{item.count} AS count
+                </foreach>
+            ) t
+        ) tmp
+        WHERE ri.Room_id = #{roomId}
+          AND ur.room_id = #{roomId}
+          AND ur.user_id = #{userId}
+          AND r.id = #{roomId}
+          AND tmp.id = ri.id
+          AND ur.is_delete = 0
+        GROUP BY ur.create_time
+    </select>
+
     <select id="queryBills" resultType="com.example.dbdesign.model.entity.Bill">
         SELECT *
         FROM bill
@@ -79,7 +80,7 @@
                r.room_type                               AS roomType,
                DATEDIFF(NOW(), ur.create_time)           AS days,
                r.price                                   AS price,
-               r.price * DATEDIFF(NOW(), ur.create_time) AS totalPrice
+               r.price * (1 + DATEDIFF(NOW(), ur.create_time)) AS totalPrice
         FROM user_room ur
                  LEFT JOIN room r
                            ON ur.room_id = r.id
