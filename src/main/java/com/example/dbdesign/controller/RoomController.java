@@ -6,6 +6,7 @@ import com.example.dbdesign.common.BaseResponse;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
+import com.example.dbdesign.mapper.RoomMapper;
 import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.entity.Room;
 import com.example.dbdesign.model.request.RoomAddRequest;
@@ -31,6 +32,9 @@ public class RoomController {
     @Resource
     private RoomService roomService;
 
+    @Resource
+    private RoomMapper roomMapper;
+
     /**
      * 管理员添加房间接口
      *
@@ -47,7 +51,8 @@ public class RoomController {
         if (addRoom == null) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "添加房间失败");
         }
-        return ResultUtils.success(addRoom, "添加房间成功");
+        Room room = roomMapper.queryRoomByRoomNum(addRoom.getRoomNumber());
+        return ResultUtils.success(room, "添加房间成功");
     }
 
     @RoleCheck
