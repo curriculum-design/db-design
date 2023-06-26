@@ -78,6 +78,13 @@ public class RoomController {
         return ResultUtils.success(roomList, "获取房间列表成功");
     }
 
+    @RoleCheck
+    @GetMapping("/getRoomsNormal")
+    public BaseResponse<List<Room>> getRoomsNormal() {
+        List<Room> roomList = roomService.getAllRooms();
+        return ResultUtils.success(roomList, "获取房间列表成功");
+    }
+
     /**
      * 管理员删除房间
      * @param roomId 房间id

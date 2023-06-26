@@ -2,6 +2,7 @@ package com.example.dbdesign.mapper;
 
 import com.example.dbdesign.model.request.UserOpenRoomRequest;
 import com.example.dbdesign.model.request.UserRoomOutRequest;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author zzs
@@ -22,5 +23,12 @@ public interface UserRoomMapper {
      * @return 受影响行数
      */
     Integer outUserRoom(UserRoomOutRequest userRoomOutRequest);
+
+    /**
+     * 根据房间id获取开房用户的id
+     * @param roomId 房间id
+     * @return 用户id
+     */
+    Long getUserId(@Param("roomId") Long roomId);
 
 }

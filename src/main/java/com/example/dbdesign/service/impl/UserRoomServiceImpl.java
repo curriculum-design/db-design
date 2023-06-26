@@ -46,8 +46,12 @@ public class UserRoomServiceImpl implements UserRoomService {
         if (BeanUtil.hasNullField(userRoomOutRequest)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        //判断房间状态
         Long roomId = userRoomOutRequest.getRoomId();
+        Long userId = userRoomMapper.getUserId(roomId);
+        if (!userRoomOutRequest.getUserId().equals(userId)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "登录用户与开房用户不一致");
+        }
+        //判断房间状态
         Room room = roomMapper.queryRoomByIdStatus(roomId);
         if (BeanUtil.isEmpty(room)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "该房间不存在或房间未被占用，无法释放");

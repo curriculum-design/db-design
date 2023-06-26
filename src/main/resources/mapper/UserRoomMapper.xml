@@ -16,4 +16,10 @@
         WHERE user_id = #{userId} AND room_id = #{roomId};
     </update>
 
+    <select id="getUserId" resultType="java.lang.Long">
+        SELECT user_id
+        FROM user_room
+        WHERE room_id = #{roomId} AND is_delete = 0;
+    </select>
+
 </mapper>
