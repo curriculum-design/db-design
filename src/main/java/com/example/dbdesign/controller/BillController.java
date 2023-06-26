@@ -6,6 +6,7 @@ import com.example.dbdesign.common.BaseResponse;
 import com.example.dbdesign.common.ErrorCode;
 import com.example.dbdesign.common.ResultUtils;
 import com.example.dbdesign.exception.BusinessException;
+import com.example.dbdesign.mapper.UserRoomMapper;
 import com.example.dbdesign.model.dto.UserDTO;
 import com.example.dbdesign.model.entity.Bill;
 import com.example.dbdesign.model.entity.ItemConsumeInfo;
@@ -29,6 +30,9 @@ import static com.example.dbdesign.controller.UserController.SESSION_KEY;
 public class BillController {
     @Resource
     private BillService billService;
+
+    @Resource
+    private UserRoomMapper userRoomMapper;
 
     @PostMapping("/saveBill")
     public BaseResponse<Boolean> saveBill(@RequestBody SaveBillRequest saveBillRequest){
@@ -89,6 +93,15 @@ public class BillController {
         if (BeanUtil.isEmpty(calculateRequest)) {
             throw new BusinessException(ErrorCode.NULL_ERROR);
         }
+        UserDTO loginUser = (UserDTO) request.getSession().getAttribute(SESSION_KEY);
+        if (loginUser == null) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN);
+        }
+        Long userId = userRoomMapper.getUserId(calculateRequest.getRoomId());
+        if (!loginUser.getId().equals(userId)) {
+            throw new BusinessException(ErrorCode.NO_AUTH, "无权查看其他用户的消费记录");
+        }
+
         List<ItemConsumeInfo> itemConsumeInfo = billService.getItemConsumeInfo(calculateRequest);
         return ResultUtils.success(itemConsumeInfo, "获取物品消费信息成功");
     }
