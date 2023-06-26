@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `room_item`
     `Room_id`          BIGINT           NOT NULL COMMENT '房间id号',
     `Room_num`         BIGINT          NOT NULL COMMENT '客房号',
     `item_name`       varchar(256)    NOT NULL COMMENT '房间物品名称',
-    `item_status`     TINYINT        NOT NULL DEFAULT 0 COMMENT '房间物品状态（0-售空，1-正常出售）',
+    `item_status`     TINYINT        NOT NULL DEFAULT 0 COMMENT '房间物品状态（0-正常出售，1-售空）',
     `item_price`      INT(32)         NOT NULL COMMENT '房间物品单价',
     `item_num`        INT(32)         NOT NULL COMMENT '房间物品数量',
     `item_sell`       INT(32)         NOT NULL DEFAULT 0 COMMENT '物品消耗数量',
@@ -193,4 +193,44 @@ ALTER TABLE user_room ADD CONSTRAINT fk2_room_id FOREIGN KEY (room_id) REFERENCE
 
 ALTER TABLE room_item ADD CONSTRAINT fk3_room_id FOREIGN KEY (Room_id) REFERENCES  room(id);
 
+INSERT INTO room VALUES (12,608,'电竞房',608,250,0,current_timestamp,current_timestamp,0);
 
+CREATE USER 'admin'@'localhost' IDENTIFIED BY '123456';
+
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_bill TO 'admin'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_living TO 'admin'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_room TO 'admin'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_roomitem TO 'admin'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_user TO 'admin'@'localhost';
+
+CREATE USER 'wcx'@'localhost' IDENTIFIED BY '123456';
+
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_bill TO 'wcx'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_living TO 'wcx'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_room TO 'wcx'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_roomitem TO 'wcx'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_user TO 'wcx'@'localhost';
+
+CREATE USER 'zzs'@'localhost' IDENTIFIED BY '123456';
+
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_bill TO 'zzs'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_living TO 'zzs'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_room TO 'zzs'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_roomitem TO 'zzs'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_user TO 'zzs'@'localhost';
+
+CREATE USER 'jn'@'localhost' IDENTIFIED BY '123456';
+
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_bill TO 'jn'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_living TO 'jn'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_room TO 'jn'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_roomitem TO 'jn'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_user TO 'jn'@'localhost';
+
+CREATE USER 'lzh'@'localhost' IDENTIFIED BY '123456';
+
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_bill TO 'lzh'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_living TO 'lzh'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_room TO 'lzh'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_roomitem TO 'lzh'@'localhost';
+GRANT SELECT, INSERT,UPDATE,DELETE ON db_design.view_user TO 'lzh'@'localhost';
